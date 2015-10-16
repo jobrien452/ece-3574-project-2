@@ -5,15 +5,17 @@ Qtdraw :: Qtdraw(QWidget * par){
     rendered = false;
 }
 
-void Qtdraw :: render(){
-    paint.begin(parent);
-    paint.setPen(Qt::blue);
-    paint.drawLine(10,10,20,20);
-    paint.end();
-}
-
 void Qtdraw :: trigRen(){
     render();
+}
+
+void Qtdraw :: trigSnap(){
+    paint.begin(parent);
+    for(int i = 0; i < snaps.size(); i++){
+        paint.setBrush(Qt::yellow);
+	paint.drawEllipse(snaps[i], 2, 2);
+    }
+    paint.end();
 }
 
 bool Qtdraw :: isRendered(){ return rendered; }
