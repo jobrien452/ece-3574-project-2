@@ -2,16 +2,17 @@
 #define LINE_H
 
 #include "qtdraw.h"
-#include <QPainter>
-#include <QObject>
-
 class Line : public Qtdraw {
     
     Q_OBJECT
     
     public:
 	Line(QWidget * parent);
-	void render();
+	void abort();
+    protected:
+	void render(QPainter *);
+	void onMoveRen(QPoint);
+        
 
 };
 

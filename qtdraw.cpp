@@ -5,18 +5,43 @@ Qtdraw :: Qtdraw(QWidget * par){
     rendered = false;
 }
 
-void Qtdraw :: trigRen(){
-    render();
-}
-
-void Qtdraw :: trigSnap(){
-    paint.begin(parent);
-    for(int i = 0; i < snaps.size(); i++){
-        paint.setBrush(Qt::yellow);
-	paint.drawEllipse(snaps[i], 2, 2);
+void setPressed(bool x, QPoint & p){
+    if(x){    
+	psnaps.append(*p);
     }
-    paint.end();
+    else{
+	psnaps.append(*p);
+	for(int i = 0; i < psnaps.size(); i++)
+	     snaps.append(psnaps[i]);
+    }
+	
 }
 
-bool Qtdraw :: isRendered(){ return rendered; }
+void onMove(Qpoint & p){
+    
+    onMoveRen(*p);
+}
+
+void Qtdraw :: trigRen(QPainter * p){
+    render(p);
+}
+
+void Qtdraw :: trigSnap(bool x, QPainter * p){
+    
+    mpSnap = new QPixmap(400, 400);
+    if(x){
+	QPainter PixmapPainter(&mpSnap);
+	PixmapPainter.setBrush(Qt::yellow);
+	for(int i = 0; i < snaps.size(); i++){
+	    PixmapPainter.drawEllipse(snaps[i], 2, 2);
+        }
+    }
+    else{
+        mpSnap->fill(Qt::transparent);
+    }
+    p->drawPixmap(0, 0, mpSnap);
+	
+}
+
+//bool Qtdraw :: isRendered(){ return rendered; }
 
