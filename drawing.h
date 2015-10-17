@@ -15,9 +15,9 @@ class Drawing : public QWidget {
     public:
 	explicit Drawing(QWidget * parent = 0);
     private:
-	Canvas * can;
+	//Canvas * can;
 	Line * l;
-	Circle * c;
+	//Circle * c;
 	bool line, circle;
     protected:
 	void paintEvent(QPaintEvent *);

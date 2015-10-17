@@ -8,6 +8,7 @@
 #include <QMap>
 #include <QList>
 #include <QString>
+#include <QPixmap>
 //#include "snap.h"
 
 class Qtdraw : public QObject {
@@ -25,9 +26,9 @@ class Qtdraw : public QObject {
     protected:
         virtual void render(QPainter *) = 0;
 	virtual void onMoveRen(QPoint &) = 0;
-        static QList <QPoint&> snaps;
+        static QList <QPoint> snaps;
 	static QPixmap board = QPixmap(400, 400);
-	QList <QPoint&> psnaps;
+	QList <QPoint> psnaps;
 	bool rendered;
         QWidget * parent;
 	QString type;
