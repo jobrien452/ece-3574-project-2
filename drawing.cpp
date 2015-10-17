@@ -24,18 +24,25 @@ Drawing :: Drawing ( QWidget * parent )
 
 void Drawing :: paintEvent(QPaintEvent * event){
 	QPainter paint(this);
-
-	if(line)
-	    l -> trigRen(&paint); 
 	
-	if(circle)
+	if(snap){
+	    l->trigSnap(true, &paint);
+	    snap = false;
+	}
+	else if(line);
+	    l -> trigRen(&paint); 
+	}
+	else if(circle){
 	    circle -> trigRen(&paint);
-
+	}else{
+	    l->trigSnap(false, &paint);
+	}
 		
 }
 
 void Drawing :: mousePressEvent(QMouseEvent * event){
-	l -> setPressed(true, event->pos());  
+	l -> setPressed(event->pos());
+	update();
 }
 
 void Drawing :: mouseMoveEvent(QMouseEvent * event){
@@ -43,29 +50,29 @@ void Drawing :: mouseMoveEvent(QMouseEvent * event){
 	update();
 }
 
-void Drawing :: mouseReleaseEvent(QMouseEvent * event){
-	l -> setPressed(false, event->pos());
-	update();
-}
-
 void Drawing :: ltrig(){
 	if(line){
 	    line = false;
+	    snap = false;
 	}
 	else if(!circle){
 	    line = true;
-       	    l->trigSnap(true, &paint);//rewrite to canvas disp later
+	    snap = true;
 	}
+	update();
 }
 
 void Drawing :: ctrig(){
 	if(circle){
 	    cirlce = false;
+	    snap = false;
 	}
 	else if(!line){
 	    circle = true;
+	    snap = true;
 	    //can->dispSnap(true);
 	}
+	update();
 }
 
 void Drawing :: abort(){
@@ -77,5 +84,6 @@ void Drawing :: abort(){
 	   ctrig();
  
 	}
-	l->dispSnap(false);	//rewrite to canvas disp later
+	snap = false;
+	update();	//rewrite to canvas disp later
 }

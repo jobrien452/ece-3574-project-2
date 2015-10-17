@@ -3,26 +3,20 @@
 Qtdraw :: Qtdraw(QWidget * par){
     parent = par;
     rendered = false;
+    type = "qtdraw object";
 }
 
-void setPressed(bool x, QPoint & p){
-    if(x){    
-	psnaps.append(*p);
-    }
-    else{
-	psnaps.append(*p);
-	for(int i = 0; i < psnaps.size(); i++)
-	     snaps.append(psnaps[i]);
-    }
-	
+QString Qtdraw :: getType(){
+    return type;
 }
 
-void onMove(Qpoint & p){
+void Qtdraw :: onMove(Qpoint & p){
     
-    onMoveRen(*p);
+    onMoveRen(p);
 }
 
 void Qtdraw :: trigRen(QPainter * p){
+    trigSnap(false, p);
     render(p);
 }
 
@@ -37,7 +31,7 @@ void Qtdraw :: trigSnap(bool x, QPainter * p){
         }
     }
     else{
-        mpSnap->fill(Qt::transparent);
+        mpSnap.fill(Qt::transparent);
     }
     p->drawPixmap(0, 0, mpSnap);
 	

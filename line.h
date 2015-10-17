@@ -8,10 +8,11 @@ class Line : public Qtdraw {
     
     public:
 	Line(QWidget * parent);
-	void abort();
+	void setPressed(QPoint &);
+	QString getSnap(QPoint &);
     protected:
 	void render(QPainter *);
-	void onMoveRen(QPoint);
+	void onMoveRen(QPoint &);
         
 
 };
