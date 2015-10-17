@@ -2,8 +2,7 @@
 
 Line :: Line(QWidget * parent) 
     :Qtdraw(parent){
-
-    type = "Line"; 
+    counter = 0; 
 }
 
 void Line :: setPressed(QPoint p){
@@ -32,6 +31,7 @@ QString Line :: getSnap(QPoint p){
 	else if(lines[i].p2() == p){
 		return "Line's End";
 	}
+    }
 }
 
 void Line :: render(QPainter * paint, QPixmap board){

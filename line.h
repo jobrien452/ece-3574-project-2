@@ -10,13 +10,13 @@ class Line : public Qtdraw {
     public:
 	Line(QWidget * parent);
 	void setPressed(QPoint );
-	QString getSnap(QPoint i);
+	QString getSnap(QPoint);
 	void abort();
     protected:
-	void render(QPainter *);
+	void render(QPainter *, QPixmap);
 	void onMoveRen(QPoint );
         QList<QLine> lines;
-	counter = 0;
+        int counter;
 };
 
 #endif

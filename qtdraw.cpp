@@ -1,17 +1,18 @@
 #include "qtdraw.h"
+QList<QPoint> Qtdraw::snaps = QList<QPoint>() << QPoint(200,200);
 
 Qtdraw :: Qtdraw(QWidget * par){
     parent = par;
     rendered = false;
 }
 
-void Qtdraw :: onMove(Qpoint p){
+void Qtdraw :: onMove(QPoint p){
     
     onMoveRen(p);
 }
 
 bool Qtdraw :: onSnap(QPoint p){
-    for(int i = 0; i<snaps.size(); ++i){
+    for(int i = 0; i< snaps.size(); ++i){
 	if(snaps[i] == p)
 		return true;
     } 
@@ -29,7 +30,7 @@ void Qtdraw :: trigSnap(bool x, QPainter * p, QPixmap mpSnap){
 	p->drawPixmap(0,0, mpSnap);
 	p->setBrush(Qt::yellow);
 	for(int i = 0; i < snaps.size(); i++){
-	    p->drawEllipse(snaps[i], 2, 2);
+	    p->drawEllipse(snaps[i], 10, 10);
         }
     }else{
 	p->drawPixmap(0,0,mpSnap);
@@ -38,11 +39,11 @@ void Qtdraw :: trigSnap(bool x, QPainter * p, QPixmap mpSnap){
 }
 
 void Qtdraw :: bSnap(QPainter * p, QPixmap mpSnap, QPoint bs){
-    trigSnap(true, p, mpSnap)
+    trigSnap(true, p, mpSnap);
     p->setBrush(Qt::darkGray);
-    p->drawEllipse(bs, 4, 4);
+    p->drawEllipse(bs, 14, 14);
     p->setBrush(Qt::blue);
-    p->drawEllipse(bs, 2, 2); 
+    p->drawEllipse(bs, 10, 10); 
 
 }
 //bool Qtdraw :: isRendered(){ return rendered; }

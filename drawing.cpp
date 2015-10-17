@@ -7,8 +7,9 @@
 
 Drawing :: Drawing ( QWidget * parent )
 : QWidget( parent ) {
-	board = QPixmap(400,400);
-	//setFixedSize(1250,750);
+	board = QPixmap(1000,1000);
+	board.fill(Qt::white);
+	setFixedSize(1000,1000);
 	line = false;
 	circle = false;
 	mov = false;
@@ -21,8 +22,8 @@ Drawing :: Drawing ( QWidget * parent )
 	//circle= = new Circle(this);
 	//will move to menu widget later
 	connect(new QShortcut(QKeySequence(tr("x", "Line")), this),SIGNAL(activated()),this,SLOT(ltrig()));
-	connect(new QShortcut(QKeySequence(tr("c", "Circle")), this),SIGNAL(activated()),this SLOT(ctrig()));
-	connect(new QShortcut(QKeySequence(tr("Esc", "Abort")), this),SIGNAL(activated()),this SLOT(abort()));
+	connect(new QShortcut(QKeySequence(tr("c", "Circle")), this),SIGNAL(activated()),this, SLOT(ctrig()));
+	connect(new QShortcut(QKeySequence(tr("Esc", "Abort")), this),SIGNAL(activated()),this, SLOT(abort()));
 }
 
 void Drawing :: paintEvent(QPaintEvent * event){
@@ -30,13 +31,13 @@ void Drawing :: paintEvent(QPaintEvent * event){
 	
 	if(line || circle){
 	    if(line&&mov){
-		l->trigRen(&paint);
+		l->trigRen(&paint,board);
 	    }else if(circle&&mov){
 		//c->trigRen(&paint);
 	    }
 	    l->trigSnap(true, &paint, board);
 	    if(ons){
-	        l->bsnap(&paint,board,bs);
+	        l->bSnap(&paint,board,bs);
 	    }
 	}else{
 	    l->trigSnap(false, &paint, board);
@@ -52,7 +53,7 @@ void Drawing :: mousePressEvent(QMouseEvent * event){
 
 void Drawing :: mouseMoveEvent(QMouseEvent * event){
 	if(circle || line){
-	    if(l->onSnap()){//use canvas for this meth
+	    if(l->onSnap(event->pos())){//use canvas for this meth
 	        bs = event->pos();
 		ons = true;
 		//implement qstring name disp here
@@ -72,23 +73,19 @@ void Drawing :: mouseMoveEvent(QMouseEvent * event){
 void Drawing :: ltrig(){
 	if(line){
 	    line = false;
-	    snap = false;
 	}
 	else if(!circle){
 	    line = true;
-	    snap = true;
 	}
 	update();
 }
 
 void Drawing :: ctrig(){
 	if(circle){
-	    cirlce = false;
-	    snap = false;
+	    circle = false;
 	}
 	else if(!line){
 	    circle = true;
-	    snap = true;
 	    //can->dispSnap(true);
 	}
 	update();

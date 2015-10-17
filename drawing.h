@@ -7,6 +7,8 @@
 #include <QShortcut>
 #include <QPoint>
 #include <QPixmap>
+#include <QMouseEvent>
+#include <QPaintEvent>
 #include "line.h"
 
 class Drawing : public QWidget {
@@ -25,7 +27,7 @@ class Drawing : public QWidget {
     protected:
 	void paintEvent(QPaintEvent *);
 	void mousePressEvent(QMouseEvent *);
-	void mouseReleaseEvent(QMouseEvent *);
+//	void mouseReleaseEvent(QMouseEvent *);
 	void mouseMoveEvent(QMouseEvent *);
     public slots:
 	void ltrig();

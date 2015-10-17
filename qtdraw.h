@@ -23,7 +23,7 @@ class Qtdraw : public QObject {
 	bool onSnap(QPoint );
 	virtual QString getSnap(QPoint ) = 0;
 	virtual void abort() = 0;
-	void bSnap(QPaint *, QPixmap, QPoint);
+	void bSnap(QPainter *, QPixmap, QPoint);
     protected:
         virtual void render(QPainter *, QPixmap) = 0;
 	virtual void onMoveRen(QPoint ) = 0;
@@ -31,8 +31,6 @@ class Qtdraw : public QObject {
 	bool rendered;
         QWidget * parent;
 //	QMouseEvent * currente;
-    private:
-	static QPixmap mpSnap;
     public slots:
         void trigRen(QPainter *, QPixmap);
         void trigSnap(bool, QPainter *, QPixmap);

@@ -3,6 +3,7 @@ project(QtMarkup CXX)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(ENABLE_CXX11 "-std=c++11")
 find_package(Qt4 REQUIRED QtTest )
 INCLUDE(${QT_USE_FILE})
 
