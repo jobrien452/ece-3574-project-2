@@ -6,6 +6,7 @@
 #include <QPainter>
 #include <QShortcut>
 #include <QPoint>
+#include <QPixmap>
 #include "line.h"
 
 class Drawing : public QWidget {
@@ -15,10 +16,12 @@ class Drawing : public QWidget {
     public:
 	explicit Drawing(QWidget * parent = 0);
     private:
+	QPixmap board;
+	QPoint bs;
 	//Canvas * can;
 	Line * l;
 	//Circle * c;
-	bool line, circle;
+	bool line, circle, ons, mov;
     protected:
 	void paintEvent(QPaintEvent *);
 	void mousePressEvent(QMouseEvent *);

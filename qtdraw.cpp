@@ -3,39 +3,47 @@
 Qtdraw :: Qtdraw(QWidget * par){
     parent = par;
     rendered = false;
-    type = "qtdraw object";
 }
 
-QString Qtdraw :: getType(){
-    return type;
-}
-
-void Qtdraw :: onMove(Qpoint & p){
+void Qtdraw :: onMove(Qpoint p){
     
     onMoveRen(p);
 }
 
-void Qtdraw :: trigRen(QPainter * p){
-    trigSnap(false, p);
-    render(p);
+bool Qtdraw :: onSnap(QPoint p){
+    for(int i = 0; i<snaps.size(); ++i){
+	if(snaps[i] == p)
+		return true;
+    } 
+    return false; 
 }
 
-void Qtdraw :: trigSnap(bool x, QPainter * p){
+void Qtdraw :: trigRen(QPainter * p, QPixmap mp){
+    trigSnap(false, p, mp);
+    render(p, mp);
+}
+
+void Qtdraw :: trigSnap(bool x, QPainter * p, QPixmap mpSnap){
     
-    mpSnap = new QPixmap(400, 400);
     if(x){
-	QPainter PixmapPainter(&mpSnap);
-	PixmapPainter.setBrush(Qt::yellow);
+	p->drawPixmap(0,0, mpSnap);
+	p->setBrush(Qt::yellow);
 	for(int i = 0; i < snaps.size(); i++){
-	    PixmapPainter.drawEllipse(snaps[i], 2, 2);
+	    p->drawEllipse(snaps[i], 2, 2);
         }
+    }else{
+	p->drawPixmap(0,0,mpSnap);
     }
-    else{
-        mpSnap.fill(Qt::transparent);
-    }
-    p->drawPixmap(0, 0, mpSnap);
 	
 }
 
+void Qtdraw :: bSnap(QPainter * p, QPixmap mpSnap, QPoint bs){
+    trigSnap(true, p, mpSnap)
+    p->setBrush(Qt::darkGray);
+    p->drawEllipse(bs, 4, 4);
+    p->setBrush(Qt::blue);
+    p->drawEllipse(bs, 2, 2); 
+
+}
 //bool Qtdraw :: isRendered(){ return rendered; }
 

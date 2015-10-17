@@ -7,9 +7,12 @@
 
 Drawing :: Drawing ( QWidget * parent )
 : QWidget( parent ) {
+	board = QPixmap(400,400);
 	//setFixedSize(1250,750);
 	line = false;
 	circle = false;
+	mov = false;
+	ons = false;
 	QPalette pal(palette());
 	pal.setColor(QPalette::Background, Qt::white);
 	setPalette(pal);
@@ -23,32 +26,48 @@ Drawing :: Drawing ( QWidget * parent )
 }
 
 void Drawing :: paintEvent(QPaintEvent * event){
-	QPainter paint(this);
+	QPainter paint(this); //use canvas for all these methods besides the line and circle one
 	
-	if(snap){
-	    l->trigSnap(true, &paint);
-	    snap = false;
-	}
-	else if(line);
-	    l -> trigRen(&paint); 
-	}
-	else if(circle){
-	    circle -> trigRen(&paint);
+	if(line || circle){
+	    if(line&&mov){
+		l->trigRen(&paint);
+	    }else if(circle&&mov){
+		//c->trigRen(&paint);
+	    }
+	    l->trigSnap(true, &paint, board);
+	    if(ons){
+	        l->bsnap(&paint,board,bs);
+	    }
 	}else{
-	    l->trigSnap(false, &paint);
+	    l->trigSnap(false, &paint, board);
 	}
 		
 }
 
 void Drawing :: mousePressEvent(QMouseEvent * event){
-	l -> setPressed(event->pos());
+	l -> setPressed(event->pos()); //create if for currently pressed
+	mov = mov ? false : true;
 	update();
 }
 
 void Drawing :: mouseMoveEvent(QMouseEvent * event){
-	l -> onMove(event->pos());
-	update();
+	if(circle || line){
+	    if(l->onSnap()){//use canvas for this meth
+	        bs = event->pos();
+		ons = true;
+		//implement qstring name disp here
+	    }
+	    else{
+		ons = false;
+		//implement returning cords here
+	    }
+	    if(mov){
+	        l->onMove(event->pos());
+	    }
+	    update();
+	}
 }
+
 
 void Drawing :: ltrig(){
 	if(line){
@@ -80,10 +99,8 @@ void Drawing :: abort(){
 	   l->abort();
 	   ltrig();
 	}else if(circle){
-	   circle->abort();
+	  // circle->abort();
 	   ctrig();
- 
 	}
-	snap = false;
 	update();	//rewrite to canvas disp later
 }
