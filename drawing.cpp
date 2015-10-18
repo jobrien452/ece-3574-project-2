@@ -57,8 +57,8 @@ void Drawing :: mousePressEvent(QMouseEvent * event){
 	     update();
 	}
 	else if((line || circle) && mov){
-	     sLine();
 	     mov = false;
+	     sLine();
 	     obs = true;
 	     l->setPressed(false, event->pos());
 	     update();
@@ -76,11 +76,12 @@ void Drawing :: mouseMoveEvent(QMouseEvent * event){
 }
 
 void Drawing :: sLine(){
-	line = line ? false : true;
-	if(mov&&!line){
+	if(mov && line){
 	    abort();
-	}
+	}else{
+	line = line ? false : true;
 	update();
+	}
 }
 
 void Drawing :: sCirc(){
@@ -99,6 +100,7 @@ void Drawing :: ctrig(bool x){
 }
 
 void Drawing :: abort(){
+	obs = false;
 	if(line){
 	   l->abort();
 	   ltrig(false);

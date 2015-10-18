@@ -68,7 +68,6 @@ void Line :: onMoveRen(QPoint p){
 void Line :: abort(){
     if(counter > 0){
         lines.pop_back();
-        counter--;
     }else{
  	lines.clear();
     }
