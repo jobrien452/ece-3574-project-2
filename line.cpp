@@ -8,16 +8,20 @@ Line :: Line(QWidget * parent)
 void Line :: setPressed(QPoint p){
     static bool x = true;
     if(x){
-        lines.append(QLine(p,p));
+	if(onSnap(p)!=-1){
+	    lines.append(QLine(snaps[onSnap(p)],p));
+	}else{
+            lines.append(QLine(p,p));
+	}
 	counter++;	
         x = false;
+	rendered = false;
     }
     else{
-	lines[counter-1].setP2(p);
-        for(int i = 0; i < lines.size(); i++){
-	    snaps.append(lines[i].p1());
-	    snaps.append(lines[i].p2());
+	if(onSnap(lines[counter-1].p1()) == -1){
+	    snaps.append(lines[counter-1].p1());
 	}
+	snaps.append(lines[counter-1].p2());
 	x = true;
 	rendered = true;
     }
@@ -34,16 +38,18 @@ QString Line :: getSnap(QPoint p){
     }
 }
 
-void Line :: render(QPainter * paint, QPixmap board){
+QPixmap Line :: render(QPainter * paint, QPixmap board){
     if(rendered){
 	QPainter PixmapPainter(&board);
 	PixmapPainter.drawLine(lines[counter-1]);
 	paint->drawPixmap(0, 0, board);
+	rendered = false;
     }
-    else{
+    else if(counter > 0){
  	paint -> drawPixmap(0,0, board);
 	paint -> drawLine(lines[counter-1]);
     }
+    return board;
 }
 
 void Line :: onMoveRen(QPoint p){
@@ -51,6 +57,8 @@ void Line :: onMoveRen(QPoint p){
 }
 
 void Line :: abort(){
-    lines.pop_back();
-    counter--;
+    if(counter > 0){
+        lines.pop_back();
+        counter--;
+    }
 }

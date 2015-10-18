@@ -13,7 +13,7 @@ class Line : public Qtdraw {
 	QString getSnap(QPoint);
 	void abort();
     protected:
-	void render(QPainter *, QPixmap);
+	QPixmap render(QPainter *, QPixmap);
 	void onMoveRen(QPoint );
         QList<QLine> lines;
         int counter;

@@ -23,17 +23,18 @@ class Drawing : public QWidget {
 	//Canvas * can;
 	Line * l;
 	//Circle * c;
-	bool line, circle, ons, mov;
+	bool line, circle, ons, mov, fbs;
     protected:
 	void paintEvent(QPaintEvent *);
 	void mousePressEvent(QMouseEvent *);
 //	void mouseReleaseEvent(QMouseEvent *);
 	void mouseMoveEvent(QMouseEvent *);
+	void ltrig(bool);
+	void ctrig(bool);
     public slots:
-	void ltrig();
-	void ctrig();
-	void abort();
-
+	void sLine();
+	void sCirc();
+        void abort();
 };
 
 #endif

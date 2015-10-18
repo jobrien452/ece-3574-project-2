@@ -38,7 +38,7 @@ static const uint qt_meta_data_Drawing[] = {
 };
 
 static const char qt_meta_stringdata_Drawing[] = {
-    "Drawing\0\0ltrig()\0ctrig()\0abort()\0"
+    "Drawing\0\0sLine()\0sCirc()\0abort()\0"
 };
 
 void Drawing::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -47,8 +47,8 @@ void Drawing::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, voi
         Q_ASSERT(staticMetaObject.cast(_o));
         Drawing *_t = static_cast<Drawing *>(_o);
         switch (_id) {
-        case 0: _t->ltrig(); break;
-        case 1: _t->ctrig(); break;
+        case 0: _t->sLine(); break;
+        case 1: _t->sCirc(); break;
         case 2: _t->abort(); break;
         default: ;
         }

@@ -7,13 +7,15 @@
 
 Drawing :: Drawing ( QWidget * parent )
 : QWidget( parent ) {
+	setMouseTracking(true);
 	board = QPixmap(1000,1000);
+	snaps = QPixmap(1000,1000);
 	board.fill(Qt::white);
 	setFixedSize(1000,1000);
 	line = false;
 	circle = false;
 	mov = false;
-	ons = false;
+	bs = QPoint(0,0);
 	QPalette pal(palette());
 	pal.setColor(QPalette::Background, Qt::white);
 	setPalette(pal);
@@ -21,8 +23,8 @@ Drawing :: Drawing ( QWidget * parent )
 	l = new Line(this);
 	//circle= = new Circle(this);
 	//will move to menu widget later
-	connect(new QShortcut(QKeySequence(tr("x", "Line")), this),SIGNAL(activated()),this,SLOT(ltrig()));
-	connect(new QShortcut(QKeySequence(tr("c", "Circle")), this),SIGNAL(activated()),this, SLOT(ctrig()));
+	connect(new QShortcut(QKeySequence(tr("x", "Line")), this),SIGNAL(activated()),this,SLOT(sLine()));
+	connect(new QShortcut(QKeySequence(tr("c", "Circle")), this),SIGNAL(activated()),this, SLOT(sCirc()));
 	connect(new QShortcut(QKeySequence(tr("Esc", "Abort")), this),SIGNAL(activated()),this, SLOT(abort()));
 }
 
@@ -30,74 +32,73 @@ void Drawing :: paintEvent(QPaintEvent * event){
 	QPainter paint(this); //use canvas for all these methods besides the line and circle one
 	
 	if(line || circle){
+
 	    if(line&&mov){
 		l->trigRen(&paint,board);
-	    }else if(circle&&mov){
+	    }
+	    else if(circle&&mov){
 		//c->trigRen(&paint);
 	    }
-	    l->trigSnap(true, &paint, board);
-	    if(ons){
-	        l->bSnap(&paint,board,bs);
-	    }
-	}else{
-	    l->trigSnap(false, &paint, board);
+
+	    l->trigSnap(true, &paint, board, bs);// use canvas
 	}
-		
+	else if(l->isRendered()){ //make statement for circle and line
+
+	    board = l->trigRen(&paint, board);
+	}
+	else{
+	    l->trigRen(&paint, board);//replace with canva
+	}	
+			
 }
 
 void Drawing :: mousePressEvent(QMouseEvent * event){
-	l -> setPressed(event->pos()); //create if for currently pressed
-	mov = mov ? false : true;
+        if(line || circle){
+	     l -> setPressed(event->pos()); //create if for currently pressed, use canvas
+	     mov = mov ? false : true;
+
+	     if(!mov){
+	         ltrig(false);
+	         ctrig(false);
+	     }
+
 	update();
+	}
 }
 
 void Drawing :: mouseMoveEvent(QMouseEvent * event){
 	if(circle || line){
-	    if(l->onSnap(event->pos())){//use canvas for this meth
-	        bs = event->pos();
-		ons = true;
-		//implement qstring name disp here
-	    }
-	    else{
-		ons = false;
-		//implement returning cords here
-	    }
+	    bs = event->pos();
 	    if(mov){
-	        l->onMove(event->pos());
+	        l->onMove(event->pos()); //create case for line and circle
 	    }
 	    update();
 	}
 }
 
-
-void Drawing :: ltrig(){
-	if(line){
-	    line = false;
-	}
-	else if(!circle){
-	    line = true;
-	}
-	update();
+void Drawing :: sLine(){
+	line = line ? false : true;
 }
 
-void Drawing :: ctrig(){
-	if(circle){
-	    circle = false;
-	}
-	else if(!line){
-	    circle = true;
-	    //can->dispSnap(true);
-	}
-	update();
+void Drawing :: sCirc(){
+	circle = circle ? false : true;
+}
+
+void Drawing :: ltrig(bool x){
+	line = x;
+}
+
+void Drawing :: ctrig(bool x){
+	circle = x;
 }
 
 void Drawing :: abort(){
 	if(line){
 	   l->abort();
-	   ltrig();
+	   ltrig(false);
 	}else if(circle){
 	  // circle->abort();
-	   ctrig();
+	   ctrig(false);
 	}
 	update();	//rewrite to canvas disp later
 }
