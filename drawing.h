@@ -23,7 +23,7 @@ class Drawing : public QWidget {
 	//Canvas * can;
 	Line * l;
 	//Circle * c;
-	bool line, circle, ons, mov, fbs;
+	bool line, circle, obs, mov;
     protected:
 	void paintEvent(QPaintEvent *);
 	void mousePressEvent(QMouseEvent *);

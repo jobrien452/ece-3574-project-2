@@ -9,7 +9,7 @@ class Line : public Qtdraw {
     
     public:
 	Line(QWidget * parent);
-	void setPressed(QPoint );
+	void setPressed(bool, QPoint);
 	QString getSnap(QPoint);
 	void abort();
     protected:

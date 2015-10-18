@@ -30,13 +30,13 @@ static const uint qt_meta_data_Qtdraw[] = {
        0,       // signalCount
 
  // slots: signature, parameters, type, tag, flags
-      12,    8,    7,    7, 0x0a,
+       8,    7,    7,    7, 0x0a,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_Qtdraw[] = {
-    "Qtdraw\0\0,,,\0trigSnap(bool,QPainter*,QPixmap,QPoint)\0"
+    "Qtdraw\0\0trigSnap(QPainter*)\0"
 };
 
 void Qtdraw::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -45,7 +45,7 @@ void Qtdraw::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
         Q_ASSERT(staticMetaObject.cast(_o));
         Qtdraw *_t = static_cast<Qtdraw *>(_o);
         switch (_id) {
-        case 0: _t->trigSnap((*reinterpret_cast< bool(*)>(_a[1])),(*reinterpret_cast< QPainter*(*)>(_a[2])),(*reinterpret_cast< QPixmap(*)>(_a[3])),(*reinterpret_cast< QPoint(*)>(_a[4]))); break;
+        case 0: _t->trigSnap((*reinterpret_cast< QPainter*(*)>(_a[1]))); break;
         default: ;
         }
     }

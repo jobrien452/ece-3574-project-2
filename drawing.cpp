@@ -9,12 +9,12 @@ Drawing :: Drawing ( QWidget * parent )
 : QWidget( parent ) {
 	setMouseTracking(true);
 	board = QPixmap(1000,1000);
-	snaps = QPixmap(1000,1000);
 	board.fill(Qt::white);
 	setFixedSize(1000,1000);
 	line = false;
 	circle = false;
 	mov = false;
+	obs = false;
 	bs = QPoint(0,0);
 	QPalette pal(palette());
 	pal.setColor(QPalette::Background, Qt::white);
@@ -30,66 +30,72 @@ Drawing :: Drawing ( QWidget * parent )
 
 void Drawing :: paintEvent(QPaintEvent * event){
 	QPainter paint(this); //use canvas for all these methods besides the line and circle one
-	
-	if(line || circle){
-
-	    if(line&&mov){
-		l->trigRen(&paint,board);
-	    }
-	    else if(circle&&mov){
-		//c->trigRen(&paint);
-	    }
-
-	    l->trigSnap(true, &paint, board, bs);// use canvas
-	}
-	else if(l->isRendered()){ //make statement for circle and line
-
+	static bool wasPressed = obs;	
+	wasPressed = obs;
+	if(wasPressed){
 	    board = l->trigRen(&paint, board);
+	    obs = false;
+	    wasPressed = obs;
 	}
-	else{
-	    l->trigRen(&paint, board);//replace with canva
-	}	
+	else if(!mov&&(line || circle)){
+	    paint.drawPixmap(0,0,board);
+	    l->trigSnap(&paint);
+	}
+	else if(mov&&(line || circle)){
+            l->trigRen(&paint, board);
+	    l->trigSnap(&paint);
+        }else{
+	    paint.drawPixmap(0,0, board);
+	}	    	
 			
 }
 
 void Drawing :: mousePressEvent(QMouseEvent * event){
-        if(line || circle){
-	     l -> setPressed(event->pos()); //create if for currently pressed, use canvas
-	     mov = mov ? false : true;
-
-	     if(!mov){
-	         ltrig(false);
-	         ctrig(false);
-	     }
-
-	update();
+        if((line || circle)&&!mov){
+	     mov = true;
+	     l -> setPressed(true, event->pos()); //create if for currently pressed, use canvas
+	     update();
 	}
+	else if((line || circle) && mov){
+	     sLine();
+	     mov = false;
+	     obs = true;
+	     l->setPressed(false, event->pos());
+	     update();
+	}
+
 }
 
 void Drawing :: mouseMoveEvent(QMouseEvent * event){
 	if(circle || line){
-	    bs = event->pos();
 	    if(mov){
 	        l->onMove(event->pos()); //create case for line and circle
+	        update();
 	    }
-	    update();
 	}
 }
 
 void Drawing :: sLine(){
 	line = line ? false : true;
+	if(mov&&!line){
+	    abort();
+	}
+	update();
 }
 
 void Drawing :: sCirc(){
 	circle = circle ? false : true;
+	update();
 }
 
 void Drawing :: ltrig(bool x){
 	line = x;
+	mov = false;
 }
 
 void Drawing :: ctrig(bool x){
 	circle = x;
+	mov = false;
 }
 
 void Drawing :: abort(){

@@ -1,29 +1,38 @@
 #include "line.h"
-
+#include <QDebug>
 Line :: Line(QWidget * parent) 
     :Qtdraw(parent){
     counter = 0; 
 }
 
-void Line :: setPressed(QPoint p){
-    static bool x = true;
+void Line :: setPressed(bool x, QPoint p){
     if(x){
-	if(onSnap(p)!=-1){
-	    lines.append(QLine(snaps[onSnap(p)],p));
-	}else{
-            lines.append(QLine(p,p));
+	int b = onSnap(p);
+	if(b != -1){
+	     qDebug() << b;
+	     lines.append(QLine(snaps[b],snaps[b]));
+	     blueSnap = b;
 	}
-	counter++;	
-        x = false;
-	rendered = false;
+        else{
+	     lines.append(QLine(p,p));
+        }
     }
     else{
-	if(onSnap(lines[counter-1].p1()) == -1){
-	    snaps.append(lines[counter-1].p1());
+        int b = onSnap(lines[counter].p1());
+	if(b == -1){
+	     snaps.append(lines[counter].p1());
 	}
-	snaps.append(lines[counter-1].p2());
-	x = true;
+
+	b = onSnap(lines[counter].p2());
+
+	if(b != -1){
+	    lines[counter].setP2(snaps[b]);
+	}else{
+	    snaps.append(lines[counter].p2());
+	}
+	blueSnap = -1;
 	rendered = true;
+	counter++;
     }
 }
 
@@ -38,27 +47,31 @@ QString Line :: getSnap(QPoint p){
     }
 }
 
-QPixmap Line :: render(QPainter * paint, QPixmap board){
+QPixmap Line :: render(QPainter * paint, QPixmap b){
     if(rendered){
-	QPainter PixmapPainter(&board);
+	QPainter PixmapPainter(&b);
 	PixmapPainter.drawLine(lines[counter-1]);
-	paint->drawPixmap(0, 0, board);
+	paint->drawPixmap(0, 0,b);
 	rendered = false;
     }
-    else if(counter > 0){
- 	paint -> drawPixmap(0,0, board);
-	paint -> drawLine(lines[counter-1]);
+    else{
+ 	paint -> drawPixmap(0,0, b);
+	paint -> drawLine(lines[counter]);
     }
-    return board;
+    return b;
 }
 
 void Line :: onMoveRen(QPoint p){
-    lines[counter-1].setP2(p);
+    lines[counter].setP2(p);
 }
 
 void Line :: abort(){
     if(counter > 0){
         lines.pop_back();
         counter--;
+    }else{
+ 	lines.clear();
     }
+    blueSnap = -1;
+    rendered = false;
 }

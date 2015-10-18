@@ -18,24 +18,23 @@ class Qtdraw : public QObject {
     public:
         Qtdraw(QWidget * parent);
         bool isRendered();
-	virtual void setPressed(QPoint ) = 0;
+	virtual void setPressed(bool, QPoint) = 0;
 	void onMove(QPoint );
 	int onSnap(QPoint );
 	virtual QString getSnap(QPoint ) = 0;
 	virtual void abort() = 0;
 	void bSnap(QPainter *, QPoint);
-        QPixmap trigRen(QPainter *);
+        QPixmap trigRen(QPainter *, QPixmap);
     protected:
-        virtual QPixmap render(QPainter *) = 0;
-	virtual void onMoveRen(QPoint ) = 0;
+        virtual QPixmap render(QPainter *, QPixmap) = 0;
+	virtual void onMoveRen(QPoint) = 0;
         static QList <QPoint> snaps;
-	static QPixmap art;
-	static QPixmap smap;
 	bool rendered;
         QWidget * parent;
+	int blueSnap;
 //	QMouseEvent * currente;
     public slots:
-        void trigSnap(QPainter *, QPoint);
+        void trigSnap(QPainter *);
 
    /* signals:
         HovSnap();
