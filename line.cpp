@@ -11,11 +11,13 @@ void Line :: setPressed(bool x, QPoint p){
 	if(b != -1){
 	     qDebug() << b;
 	     lines.append(QLine(snaps[b],snaps[b]));
-	     blueSnap = b;
+	     gridSnap = snaps[b];
 	}
         else{
 	     lines.append(QLine(p,p));
+	     gridSnap = p;
         }
+	clicked = true;
     }
     else{
         int b = onSnap(lines[counter].p1());
@@ -30,9 +32,10 @@ void Line :: setPressed(bool x, QPoint p){
 	}else{
 	    snaps.append(lines[counter].p2());
 	}
-	blueSnap = -1;
+	blueSnap = -1;//possibly unecessary, find out during testing
 	rendered = true;
 	counter++;
+	clicked = false;
     }
 }
 
@@ -63,6 +66,7 @@ QPixmap Line :: render(QPainter * paint, QPixmap b){
 
 void Line :: onMoveRen(QPoint p){
     lines[counter].setP2(p);
+    blueSnap = onSnap(p);
 }
 
 void Line :: abort(){
@@ -73,4 +77,5 @@ void Line :: abort(){
     }
     blueSnap = -1;
     rendered = false;
+    clicked = false;
 }

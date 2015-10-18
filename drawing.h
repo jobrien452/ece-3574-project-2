@@ -10,6 +10,7 @@
 #include <QMouseEvent>
 #include <QPaintEvent>
 #include "line.h"
+#include "circle.h"
 
 class Drawing : public QWidget {
 	
@@ -19,20 +20,18 @@ class Drawing : public QWidget {
 	explicit Drawing(QWidget * parent = 0);
     private:
 	QPixmap board;
-	QPoint bs;
-	//Canvas * can;
+//	Canvas * can;
 	Line * l;
 	//Circle * c;
 	bool line, circle, obs, mov;
     protected:
 	void paintEvent(QPaintEvent *);
 	void mousePressEvent(QMouseEvent *);
-//	void mouseReleaseEvent(QMouseEvent *);
 	void mouseMoveEvent(QMouseEvent *);
 	void ltrig(bool);
 	void ctrig(bool);
     public slots:
-	void sLine();
+	void sLine();//for when window handle short cuts
 	void sCirc();
         void abort();
 };

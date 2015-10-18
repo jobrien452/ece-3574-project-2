@@ -15,13 +15,12 @@ Drawing :: Drawing ( QWidget * parent )
 	circle = false;
 	mov = false;
 	obs = false;
-	bs = QPoint(0,0);
 	QPalette pal(palette());
 	pal.setColor(QPalette::Background, Qt::white);
 	setPalette(pal);
 	//can = new Canvas(this);
 	l = new Line(this);
-	//circle= = new Circle(this);
+//	circle= = new Circle(this);
 	//will move to menu widget later
 	connect(new QShortcut(QKeySequence(tr("x", "Line")), this),SIGNAL(activated()),this,SLOT(sLine()));
 	connect(new QShortcut(QKeySequence(tr("c", "Circle")), this),SIGNAL(activated()),this, SLOT(sCirc()));
@@ -68,25 +67,23 @@ void Drawing :: mousePressEvent(QMouseEvent * event){
 
 void Drawing :: mouseMoveEvent(QMouseEvent * event){
 	if(circle || line){
-	    if(mov){
-	        l->onMove(event->pos()); //create case for line and circle
-	        update();
-	    }
+	     l->onMove(event->pos(),mov); //create case for line and circle
+	     update();
 	}
 }
 
 void Drawing :: sLine(){
-	if(mov && line){
-	    abort();
-	}else{
+	if(!mov){
 	line = line ? false : true;
 	update();
 	}
 }
 
 void Drawing :: sCirc(){
+	if(!mov){
 	circle = circle ? false : true;
 	update();
+	}
 }
 
 void Drawing :: ltrig(bool x){
@@ -105,7 +102,7 @@ void Drawing :: abort(){
 	   l->abort();
 	   ltrig(false);
 	}else if(circle){
-	  // circle->abort();
+//	   circle->abort();
 	   ctrig(false);
 	}
 	update();	//rewrite to canvas disp later

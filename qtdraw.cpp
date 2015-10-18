@@ -12,9 +12,13 @@ bool Qtdraw :: isRendered(){
     return rendered;
 }
 
-void Qtdraw :: onMove(QPoint p){
-    
-    onMoveRen(p);
+void Qtdraw :: onMove(QPoint p, bool x){
+    if(x){
+        onMoveRen(p);
+    }
+    else{
+        blueSnap = onSnap(p);
+    }
 }
 
 int Qtdraw :: onSnap(QPoint p){
@@ -37,15 +41,14 @@ void Qtdraw :: trigSnap(QPainter * p){
    p->setBrush(Qt::yellow); 
    for(int i = 0; i < snaps.size(); i++){
        if(blueSnap == i){
-	   p->setBrush(Qt::darkGray);
-	   p->drawEllipse(snaps[i],10,10);
-	   p->setBrush(Qt::blue);
-	   p->drawEllipse(snaps[i],7,7);
-           p->setBrush(Qt::yellow);   
+	   bSnap(p, snaps[i]);  
        }
        else{
            p->drawEllipse(snaps[i], 7, 7);
        }
+   }
+   if(clicked){
+      bSnap(p, gridSnap);
    }
 }
 
