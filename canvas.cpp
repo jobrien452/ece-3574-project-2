@@ -1,14 +1,29 @@
 #include "canvas.h"
 #include <QDebug>
 
-Canvas :: Canvas(QWidget * parent)//overload constructor so class isnt hardcoded
-	: Qtdraw(parent){
+Canvas :: Canvas()//overload constructor so class isnt hardcoded
+	: Qtdraw(){
 
+    overload(QPoint(4,4),QPoint(880,620));
+}
+
+Canvas :: Canvas(QPoint origin, QPoint bottomRight)
+	: Qtdraw(){
+    overload(origin, bottomRight);   
+}
+
+void Canvas :: overload(QPoint origin, QPoint bottomRight){
     rendered = true;
-    border = QRect(QPoint(4,4),QPoint(880,620));
-    cpoints << QPoint(4,4) << QPoint(438, 4) << QPoint(880, 4);
-    cpoints << QPoint(4,308) << QPoint(438,308) << QPoint(880,308);
-    cpoints << QPoint(4, 620) << QPoint(438,620) << QPoint(880,620);
+    border = QRect(origin, bottomRight);
+    int cy = border.center().y();
+    int cx = border.center().x();
+    cpoints << border.topLeft() << QPoint(cx,border.top())  << border.topRight();
+    cpoints << QPoint(border.left(),cy) << border.center() << QPoint(border.right(),cy);
+    cpoints << border.bottomLeft() << QPoint(cx, border.bottom()) << border.bottomRight(); 
+    createLabels(); 
+}
+
+void Canvas :: createLabels(){
     labels.insert(0, "top-left corner");
     labels.insert(1, "top-edge");
     labels.insert(2, "top-right corner");
@@ -18,7 +33,6 @@ Canvas :: Canvas(QWidget * parent)//overload constructor so class isnt hardcoded
     labels.insert(6, "bottom-left corner");
     labels.insert(7, "bottom edge");
     labels.insert(8, "bottom-right corner");
-
 }
 
 void Canvas :: setPressed(bool x, QPoint p){} //not a function of canvas

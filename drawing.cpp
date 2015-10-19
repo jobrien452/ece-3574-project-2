@@ -17,9 +17,10 @@ Drawing :: Drawing ( QWidget * parent )
 	QPalette pal(palette());
 	pal.setColor(QPalette::Background, Qt::white);
 	setPalette(pal);
-	objs.append(new Line(this));
-	objs.append(new Circle(this));
-        objs.append(new Canvas(this));
+	objs.append(new Line());
+	objs.append(new Circle());
+        objs.append(new Canvas());
+	update();
 	//will move to menu widget later
 	connect(new QShortcut(QKeySequence(tr("x", "Line")), this),SIGNAL(activated()),this,SLOT(sLine()));
 	connect(new QShortcut(QKeySequence(tr("c", "Circle")), this),SIGNAL(activated()),this, SLOT(sCirc()));
@@ -76,7 +77,7 @@ void Drawing :: mouseMoveEvent(QMouseEvent * event){
 }
 
 void Drawing :: sLine(){
-	if(!mov){
+	if(!mov&&cur == NONE){
 	cur = cur == LINE ? NONE : LINE;
 	update();
 	}
@@ -84,16 +85,18 @@ void Drawing :: sLine(){
 }
 
 void Drawing :: sCirc(){
-	if(!mov){
+	if(!mov&&cur == NONE){
 	cur = (cur == CIRCLE) ? NONE : CIRCLE;
 	update();
 	}
 }
 
 void Drawing :: abort(){
+	if(cur != NONE){
 	obs = false;
 	objs[cur] -> abort();
 	cur = NONE;
 	mov = false;
-	update();	//rewrite to canvas disp later
+	update();
+	}
 }

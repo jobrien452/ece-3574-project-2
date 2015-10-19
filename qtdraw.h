@@ -16,7 +16,7 @@ class Qtdraw : public QObject {
     Q_OBJECT
 
     public:
-        Qtdraw(QWidget * parent);
+        Qtdraw();
         bool isRendered();
 	virtual void setPressed(bool, QPoint) = 0;
 	void onMove(QPoint, bool );
@@ -30,10 +30,8 @@ class Qtdraw : public QObject {
 	virtual void onMoveRen(QPoint) = 0;
         static QList <QPoint> snaps;
 	bool rendered, clicked;
-        QWidget * parent;
 	int blueSnap;
 	QPoint gridSnap;
-//	QMouseEvent * currente;
     public slots:
         void trigSnap(QPainter *);
 

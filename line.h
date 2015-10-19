@@ -8,15 +8,16 @@ class Line : public Qtdraw {
     Q_OBJECT
     
     public:
-	Line(QWidget * parent);
+	Line();
 	void setPressed(bool, QPoint);
 	QString getSnap(QPoint);
 	void abort();
+    private:
+        QList<QLine> lines;
+        int counter;
     protected:
 	QPixmap render(QPainter *, QPixmap);
 	void onMoveRen(QPoint );
-        QList<QLine> lines;
-        int counter;
 };
 
 #endif

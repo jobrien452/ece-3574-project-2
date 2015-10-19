@@ -1,7 +1,7 @@
 #include "line.h"
 #include <QDebug>
-Line :: Line(QWidget * parent) 
-    :Qtdraw(parent){
+Line :: Line() 
+    :Qtdraw(){
     counter = 0; 
 }
 

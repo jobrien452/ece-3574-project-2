@@ -3,9 +3,10 @@
 #include <math.h>
 #include <QDebug>
 
-Circle :: Circle(QWidget * parent)
-	:Qtdraw(parent){
+Circle :: Circle()
+	:Qtdraw(){
 	counter = 0;
+	rendered = false;
 }
 
 void Circle :: setPressed(bool x, QPoint p){
@@ -23,12 +24,13 @@ void Circle :: setPressed(bool x, QPoint p){
 	tempDat.r = 0;
 	circles.append(tempDat);
 	clicked = true;
+	rendered = false;
     }
     else{
 	int b = onSnap(circles[counter].center);
 	circDat x = circles[counter];
 	if(b == -1){
-		snaps.append(tempDat.center);
+		snaps.append(x.center);
 	}
         //qDebug() << circles[counter].rx << "()" << circles[counter].ry;	
 	int ovp = -1;

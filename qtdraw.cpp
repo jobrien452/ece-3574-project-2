@@ -2,8 +2,7 @@
 #include <QDebug>
 QList<QPoint> Qtdraw::snaps = QList<QPoint>();
 
-Qtdraw :: Qtdraw(QWidget * par){
-    parent = par;
+Qtdraw :: Qtdraw(){
     rendered = false;
     blueSnap = -1;
 }

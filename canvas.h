@@ -10,16 +10,20 @@ class Canvas : public Qtdraw {
     Q_OBJECT
 
     public:
-	Canvas(QWidget * parent);
+	Canvas();
+	Canvas(QPoint, QPoint);
 	void setPressed(bool, QPoint);
 	QString getSnap(QPoint);
 	void abort();
+    private:
+	void createLabels();
+	void overload(QPoint, QPoint);
+	QRect border;
+	QMap<int, QString> labels;
+	QList<QPoint> cpoints;
     protected:
 	QPixmap render(QPainter *, QPixmap);
 	void onMoveRen(QPoint);
-	QList<QPoint> cpoints;
-	QMap<int, QString> labels;
-	QRect border;
 
 };
 

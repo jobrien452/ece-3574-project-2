@@ -20,15 +20,16 @@ class Circle : public Qtdraw {
     };
 
     public:
-	Circle(QWidget * parent);
+	Circle();
 	void setPressed(bool, QPoint);
 	QString getSnap(QPoint);
 	void abort();
+    private:
+	int counter;
+	QList<circDat> circles;
     protected:
 	QPixmap render(QPainter *, QPixmap);
 	void onMoveRen(QPoint);
-	QList<circDat> circles;
-	int counter;
 };
 
 #endif
