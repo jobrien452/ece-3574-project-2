@@ -7,8 +7,7 @@ class Circle : public Qtdraw {
     Q_OBJECT
     
     struct circDat { //No easy holder like QLine so I made my own data container
-        int rx;
-	int ry;
+        int r;
 	QPoint center;
 	QList<QPoint> sides;
     };

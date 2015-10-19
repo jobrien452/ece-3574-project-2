@@ -1,5 +1,7 @@
 #include "circle.h"
 #include <stdlib.h>
+#include <math.h>
+#include <QDebug>
 
 Circle :: Circle(QWidget * parent)
 	:Qtdraw(parent){
@@ -18,8 +20,7 @@ void Circle :: setPressed(bool x, QPoint p){
 	     tempDat.center = p;
 	     gridSnap = p;
 	}
-	tempDat.rx = 0;
-	tempDat.ry = 0;
+	tempDat.r = 0;
 	circles.append(tempDat);
 	clicked = true;
     }
@@ -29,12 +30,12 @@ void Circle :: setPressed(bool x, QPoint p){
 	if(b == -1){
 		snaps.append(tempDat.center);
 	}
-	
+        //qDebug() << circles[counter].rx << "()" << circles[counter].ry;	
 	int ovp = -1;
-        x.sides.append(QPoint(tempDat.center.x(), tempDat.center.y()+tempDat.ry));
-        x.sides.append(QPoint(tempDat.center.x(), tempDat.center.y()-tempDat.ry));
-        x.sides.append(QPoint(tempDat.center.x()-tempDat.rx, tempDat.center.y()));
-        x.sides.append(QPoint(tempDat.center.x()+tempDat.rx, tempDat.center.y()));
+        x.sides.append(QPoint(x.center.x(), x.center.y()+x.r));
+        x.sides.append(QPoint(x.center.x(), x.center.y()-x.r));
+        x.sides.append(QPoint(x.center.x()-x.r, x.center.y()));
+        x.sides.append(QPoint(x.center.x()+x.r, x.center.y()));
         for(int i = 0; i < x.sides.size(); ++i){
 	    ovp = onSnap(x.sides[i]);
 	    if(ovp != -1){
@@ -71,20 +72,22 @@ void Circle :: abort(){ //method is similar in all implementations, may consider
 QPixmap Circle :: render(QPainter * p, QPixmap b){
     if(rendered){
 	QPainter PixmapPainter(&b);
-	PixmapPainter.drawEllipse(circles[counter-1].center, circles[counter-1].rx, circles[counter-1].ry );
+	PixmapPainter.drawEllipse(circles[counter-1].center, circles[counter-1].r, circles[counter-1].r);
 	p->drawPixmap(0,0,b);
 	rendered = false;
     }
     else{
 	p -> drawPixmap(0,0,b);
-	p -> drawEllipse(circles[counter-1].center, circles[counter-1].rx, circles[counter-1].ry);
+	p -> drawEllipse(circles[counter].center, circles[counter].r, circles[counter].r);
     }
     return b;
 }
 
 void Circle :: onMoveRen(QPoint p){
-    circles[counter].rx = abs(circles[counter].center.x()- p.x());
-    circles[counter].ry = abs(circles[counter].center.y()- p.y());
+    int x = p.x() - circles[counter].center.x();
+    int y = p.y() - circles[counter].center.y();
+    int d =(int) sqrt(pow((double)x,2)+pow((double)y,2));
+    circles[counter].r = d;
     blueSnap = onSnap(p);
 }
 

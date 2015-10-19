@@ -24,7 +24,7 @@ void Qtdraw :: onMove(QPoint p, bool x){
 int Qtdraw :: onSnap(QPoint p){
     for(int i = 0; i< snaps.size(); ++i){
 	if(((p.x()-7) < snaps[i].x() && snaps[i].x() < (p.x()+7)) && ((p.y()-7) < snaps[i].y()&& snaps[i].y() < (p.y()+7))){
-		qDebug() << p;
+//		qDebug() << p;
 		return i;
         } 
     }
@@ -44,7 +44,7 @@ void Qtdraw :: trigSnap(QPainter * p){
 	   bSnap(p, snaps[i]);  
        }
        else{
-           p->drawEllipse(snaps[i], 7, 7);
+           p->drawEllipse(snaps[i], 4, 4);
        }
    }
    if(clicked){
@@ -55,8 +55,8 @@ void Qtdraw :: trigSnap(QPainter * p){
 void Qtdraw :: bSnap(QPainter * p, QPoint bs){
   
     p->setBrush(Qt::darkGray);
-    p->drawEllipse(bs, 10, 10);
+    p->drawEllipse(bs, 6, 6);
     p->setBrush(Qt::blue);
-    p->drawEllipse(bs, 7, 7);
+    p->drawEllipse(bs, 4, 4);
     p->setBrush(Qt::yellow); 
 }
