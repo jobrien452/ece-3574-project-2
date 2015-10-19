@@ -9,7 +9,15 @@ class Circle : public Qtdraw {
     struct circDat { //No easy holder like QLine so I made my own data container
         int rx;
 	int ry;
-	QPoint center, left, right, top, bottom;
+	QPoint center;
+	QList<QPoint> sides;
+    };
+    
+    enum side { //used to identify sides for text dispaly
+	TOP,
+	BOTTOM,
+	LEFT,
+	RIGHT
     };
 
     public:

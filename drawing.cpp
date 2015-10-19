@@ -1,5 +1,4 @@
 #include "drawing.h"
-#include "line.h"
 
 #include <QAction>
 #include <QPoint>
@@ -11,16 +10,17 @@ Drawing :: Drawing ( QWidget * parent )
 	board = QPixmap(1000,1000);
 	board.fill(Qt::white);
 	setFixedSize(1000,1000);
-	line = false;
-	circle = false;
+//	line = false;
+	//circle = false;
 	mov = false;
 	obs = false;
+        cur = NONE;
 	QPalette pal(palette());
 	pal.setColor(QPalette::Background, Qt::white);
 	setPalette(pal);
 	//can = new Canvas(this);
-	l = new Line(this);
-//	circle= = new Circle(this);
+	objs.append(new Line(this));
+	objs.append(new Circle(this));
 	//will move to menu widget later
 	connect(new QShortcut(QKeySequence(tr("x", "Line")), this),SIGNAL(activated()),this,SLOT(sLine()));
 	connect(new QShortcut(QKeySequence(tr("c", "Circle")), this),SIGNAL(activated()),this, SLOT(sCirc()));
@@ -32,17 +32,18 @@ void Drawing :: paintEvent(QPaintEvent * event){
 	static bool wasPressed = obs;	
 	wasPressed = obs;
 	if(wasPressed){
-	    board = l->trigRen(&paint, board);
+	    board = objs[cur]->trigRen(&paint, board);
 	    obs = false;
 	    wasPressed = obs;
+	    cur = NONE;
 	}
-	else if(!mov&&(line || circle)){
+	else if(!mov&&(cur != NONE)){
 	    paint.drawPixmap(0,0,board);
-	    l->trigSnap(&paint);
+	    objs[cur]->trigSnap(&paint);
 	}
-	else if(mov&&(line || circle)){
-            l->trigRen(&paint, board);
-	    l->trigSnap(&paint);
+	else if(mov&&(cur != NONE)){
+            objs[cur]->trigRen(&paint, board);
+	    objs[cur]->trigSnap(&paint);
         }else{
 	    paint.drawPixmap(0,0, board);
 	}	    	
@@ -50,60 +51,53 @@ void Drawing :: paintEvent(QPaintEvent * event){
 }
 
 void Drawing :: mousePressEvent(QMouseEvent * event){
-        if((line || circle)&&!mov){
+        if((cur != NONE)&&!mov){
 	     mov = true;
-	     l -> setPressed(true, event->pos()); //create if for currently pressed, use canvas
+	     objs[cur] -> setPressed(true, event->pos()); //create if for currently pressed, use canvas
 	     update();
 	}
-	else if((line || circle) && mov){
+	else if((cur != NONE) && mov){
 	     mov = false;
-	     sLine();
-	     obs = true;
-	     l->setPressed(false, event->pos());
+	     //sOBJ(cur);
+	     obs = true;   
+	     objs[cur] -> setPressed(false, event->pos());  
 	     update();
 	}
 
 }
 
 void Drawing :: mouseMoveEvent(QMouseEvent * event){
-	if(circle || line){
-	     l->onMove(event->pos(),mov); //create case for line and circle
+	if(cur != NONE){
+	     objs[cur]->onMove(event->pos(),mov); //create case for line and circle
 	     update();
 	}
 }
 
+/*void Drawing :: sOBJ(shapes x){
+	if(!mov){	
+	update();	
+	}
+}*/
+
 void Drawing :: sLine(){
 	if(!mov){
-	line = line ? false : true;
+	cur = cur == LINE ? NONE : LINE;
 	update();
 	}
+
 }
 
 void Drawing :: sCirc(){
 	if(!mov){
-	circle = circle ? false : true;
+	cur = (cur == CIRCLE) ? NONE : CIRCLE;
 	update();
 	}
 }
 
-void Drawing :: ltrig(bool x){
-	line = x;
-	mov = false;
-}
-
-void Drawing :: ctrig(bool x){
-	circle = x;
-	mov = false;
-}
-
 void Drawing :: abort(){
 	obs = false;
-	if(line){
-	   l->abort();
-	   ltrig(false);
-	}else if(circle){
-//	   circle->abort();
-	   ctrig(false);
-	}
+	objs[cur] -> abort();
+	cur = NONE;
+	mov = false;
 	update();	//rewrite to canvas disp later
 }
