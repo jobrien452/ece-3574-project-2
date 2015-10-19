@@ -7,9 +7,9 @@
 Drawing :: Drawing ( QWidget * parent )
 : QWidget( parent ) {
 	setMouseTracking(true);
-	board = QPixmap(1000,1000);
+	board = QPixmap(880,660);
 	board.fill(Qt::white);
-	setFixedSize(1000,1000);
+	setFixedSize(880,660);
 //	line = false;
 	//circle = false;
 	mov = false;
