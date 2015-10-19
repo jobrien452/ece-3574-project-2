@@ -12,6 +12,7 @@
 #include "qtdraw.h"
 #include "line.h"
 #include "circle.h"
+#include "canvas.h"
 
 class Drawing : public QWidget {
 	
@@ -28,9 +29,6 @@ class Drawing : public QWidget {
 	explicit Drawing(QWidget * parent = 0);
     private:
 	QPixmap board;
-//	Canvas * can;
-//	Line * l;
-//	Circle * c;
 	bool obs, mov;
 	shapes cur;
     protected:
@@ -38,8 +36,6 @@ class Drawing : public QWidget {
 	void mousePressEvent(QMouseEvent *);
 	void mouseMoveEvent(QMouseEvent *);
         QList<Qtdraw*> objs;
-	//void ltrig(bool);
-	//void ctrig(bool);
     public slots:
 	void sLine();//for when window handle short cuts
 	void sCirc();

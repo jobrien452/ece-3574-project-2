@@ -6,21 +6,20 @@
 
 Drawing :: Drawing ( QWidget * parent )
 : QWidget( parent ) {
+	
 	setMouseTracking(true);
-	board = QPixmap(880,660);
+	board = QPixmap(884,624);
 	board.fill(Qt::white);
-	setFixedSize(880,660);
-//	line = false;
-	//circle = false;
+	setFixedSize(884,624);
 	mov = false;
 	obs = false;
-        cur = NONE;
+        cur = CANVAS;
 	QPalette pal(palette());
 	pal.setColor(QPalette::Background, Qt::white);
 	setPalette(pal);
-	//can = new Canvas(this);
 	objs.append(new Line(this));
 	objs.append(new Circle(this));
+        objs.append(new Canvas(this));
 	//will move to menu widget later
 	connect(new QShortcut(QKeySequence(tr("x", "Line")), this),SIGNAL(activated()),this,SLOT(sLine()));
 	connect(new QShortcut(QKeySequence(tr("c", "Circle")), this),SIGNAL(activated()),this, SLOT(sCirc()));
@@ -28,10 +27,13 @@ Drawing :: Drawing ( QWidget * parent )
 }
 
 void Drawing :: paintEvent(QPaintEvent * event){
-	QPainter paint(this); //use canvas for all these methods besides the line and circle one
+	QPainter paint(this);
 	static bool wasPressed = obs;	
 	wasPressed = obs;
-	if(wasPressed){
+	if(cur == CANVAS){
+	    board = objs[cur]->trigRen(&paint, board);
+	    cur = NONE;
+	}else if(wasPressed){
 	    board = objs[cur]->trigRen(&paint, board);
 	    obs = false;
 	    wasPressed = obs;
@@ -72,12 +74,6 @@ void Drawing :: mouseMoveEvent(QMouseEvent * event){
 	     update();
 	}
 }
-
-/*void Drawing :: sOBJ(shapes x){
-	if(!mov){	
-	update();	
-	}
-}*/
 
 void Drawing :: sLine(){
 	if(!mov){

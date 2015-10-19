@@ -3,6 +3,8 @@
 
 #include "qtdraw.h"
 #include <QRect>
+#include <QMap>
+
 class Canvas : public Qtdraw {
 
     Q_OBJECT
@@ -16,6 +18,7 @@ class Canvas : public Qtdraw {
 	QPixmap render(QPainter *, QPixmap);
 	void onMoveRen(QPoint);
 	QList<QPoint> cpoints;
+	QMap<int, QString> labels;
 	QRect border;
 
 };

@@ -1,6 +1,6 @@
 #include "qtdraw.h"
 #include <QDebug>
-QList<QPoint> Qtdraw::snaps = QList<QPoint>() << QPoint(500,500);
+QList<QPoint> Qtdraw::snaps = QList<QPoint>();
 
 Qtdraw :: Qtdraw(QWidget * par){
     parent = par;

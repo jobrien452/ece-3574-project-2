@@ -9,7 +9,7 @@ void Line :: setPressed(bool x, QPoint p){
     if(x){
 	int b = onSnap(p);
 	if(b != -1){
-	     qDebug() << b;
+	    // qDebug() << b;
 	     lines.append(QLine(snaps[b],snaps[b]));
 	     gridSnap = snaps[b];
 	}
