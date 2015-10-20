@@ -21,6 +21,7 @@ class Qtdraw : public QObject {
 	virtual void setPressed(bool, QPoint) = 0;
 	void onMove(QPoint, bool );
 	int onSnap(QPoint );
+	virtual QPoint getCenter();
 	virtual QString getSnap(QPoint ) = 0;
 	virtual void abort() = 0;
 	void bSnap(QPainter *, QPoint);

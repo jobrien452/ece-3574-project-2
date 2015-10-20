@@ -7,15 +7,15 @@ void Line :: setPressed(bool x, QPoint p){
     if(x){
 	int b = onSnap(p);
 	if(b != -1){
-	     qDebug() << b;
+	     //qDebug() << b;
 	     lines.append(QLine(snaps[b],snaps[b]));
 	     gridSnap = snaps[b];
 	}
         else{
-	     qDebug() <<" :(";
+	    // qDebug() <<" :(";
 	     lines.append(QLine(p,p));
 	     gridSnap = p;
-	     qDebug() << ":D";
+	    // qDebug() << ":D";
         }
 	clicked = true;
     }
@@ -23,6 +23,7 @@ void Line :: setPressed(bool x, QPoint p){
         int b = onSnap(lines.last().p1());
 	if(b == -1){
 	     snaps.append(lines.last().p1());
+	     lsnaps.append(lines.last().p1());
 	}
 
 	b = onSnap(lines.last().p2());
@@ -31,6 +32,7 @@ void Line :: setPressed(bool x, QPoint p){
 	    lines.last().setP2(snaps[b]);
 	}else{
 	    snaps.append(lines.last().p2());
+	    lsnaps.append(lines.last().p2());
 	}
 	blueSnap = -1;//possibly unecessary, find out during testing
 	rendered = true;
@@ -40,14 +42,24 @@ void Line :: setPressed(bool x, QPoint p){
 }
 
 QString Line :: getSnap(QPoint p){
+    QString side = "";
     for(int i = 0; i < lines.size(); ++i){
-	if(lines[i].p1() == p){
-		return "Line's Start";
+	if(((p.x()-4) < lines[i].p1().x() && lines[i].p1().x() < (p.x()+4)) && ((p.y()-4) < lines[i].p1().y()&& lines[i].p1().y() < (p.y()+4))){
+	    side =  "Line's Start";
 	}
-	else if(lines[i].p2() == p){
-		return "Line's End";
+	else if(((p.x()-4) < lines[i].p2().x() && lines[i].p2().x() < (p.x()+4)) && ((p.y()-4) < lines[i].p2().y()&& lines[i].p2().y() < (p.y()+4))){
+            side = "Line's End";
 	}
     }
+    if(!side.isEmpty()){
+	for(int i = 0; i < lsnaps.size(); ++i){
+	    if(lsnaps[i] == p){
+		return side;   
+	    }
+	}
+    }
+
+    return "";
 }
 
 QPixmap Line :: render(QPainter * paint, QPixmap b){
@@ -59,7 +71,7 @@ QPixmap Line :: render(QPainter * paint, QPixmap b){
 	rendered = false;
     }
     else{
-	qDebug() << lines;
+	//qDebug() << lines;
  	paint -> drawPixmap(0,0, b);
 	paint -> drawLine(lines.last());
 	//qDebug() << "ldend";
@@ -71,6 +83,8 @@ void Line :: onMoveRen(QPoint p){
     lines.last().setP2(p);
     blueSnap = onSnap(p);
 }
+
+QPoint Line :: getCenter(){return QPoint(0,0);}
 
 void Line :: abort(){
     if(lines.size() > 1){

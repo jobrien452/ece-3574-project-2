@@ -15,6 +15,7 @@ class Canvas : public Qtdraw {
 	void setPressed(bool, QPoint);
 	QString getSnap(QPoint);
 	void abort();
+	QPoint getCenter();
     private:
 	void createLabels();
 	void overload(QPoint, QPoint);

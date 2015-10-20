@@ -8,6 +8,7 @@
 #include <QVBoxLayout>
 #include "drawing.h"
 #include "menu.h"
+#include "message.h"
 
 class Window : public QWidget {
 
@@ -16,15 +17,13 @@ class Window : public QWidget {
     public:
 	explicit Window(QWidget * parent = 0);
     private:
-	QVBoxLayout * virt;
+	QVBoxLayout * vert;
 	QHBoxLayout * hori;
 	Drawing * d;
 	Menu * m;
+	Message * me;
 	QShortcut *lshort, *cshort, *ashort;
-    signals:
-	//?
-    public slots:
-	//?
+
 };
 
 #endif

@@ -24,8 +24,10 @@ class Circle : public Qtdraw {
 	void setPressed(bool, QPoint);
 	QString getSnap(QPoint);
 	void abort();
+	QPoint getCenter();
     private:
 	QList<circDat> circles;
+	QList<QPoint> csnaps;
     protected:
 	QPixmap render(QPainter *, QPixmap);
 	void onMoveRen(QPoint);

@@ -11,6 +11,8 @@ bool Qtdraw :: isRendered(){
     return rendered;
 }
 
+QPoint Qtdraw :: getCenter(){return QPoint(0,0);};
+
 void Qtdraw :: onMove(QPoint p, bool x){
     if(x){
         onMoveRen(p);

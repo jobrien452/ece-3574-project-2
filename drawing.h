@@ -35,6 +35,7 @@ class Drawing : public QWidget {
 	void paintEvent(QPaintEvent *);
 	void mousePressEvent(QMouseEvent *);
 	void mouseMoveEvent(QMouseEvent *);
+	void msg(QPoint);
         QList<Qtdraw*> objs;
     public slots:
 	void sLine();//for when window handle short cuts
@@ -44,6 +45,9 @@ class Drawing : public QWidget {
 	void drawn();
 	void tl();
 	void tc();
+	void disp(QString, bool);
+	void clshape(int);
+	void clear();
 };
 
 #endif

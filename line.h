@@ -12,8 +12,10 @@ class Line : public Qtdraw {
 	void setPressed(bool, QPoint);
 	QString getSnap(QPoint);
 	void abort();
+	QPoint getCenter();
     private:
         QList<QLine> lines;
+	QList<QPoint> lsnaps;
     protected:
 	QPixmap render(QPainter *, QPixmap);
 	void onMoveRen(QPoint );

@@ -35,11 +35,15 @@ void Canvas :: createLabels(){
     labels.insert(8, "bottom-right corner");
 }
 
+QPoint Canvas :: getCenter(){
+    return cpoints[4];
+}
+
 void Canvas :: setPressed(bool x, QPoint p){} //not a function of canvas
 
 QString Canvas :: getSnap(QPoint p){
     for(int i = 0; i<labels.size(); ++i){
-        if((cpoints[i]==p)&&labels.contains(i))
+        if(((p.x()-4) < cpoints[i].x() && cpoints[i].x() < (p.x()+4)) && ((p.y()-4) < cpoints[i].y()&& cpoints[i].y() < (p.y()+4))&&labels.contains(i))
 	    return "Canvas's "+labels.value(i);
     }
     return "";

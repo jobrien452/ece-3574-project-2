@@ -57,7 +57,8 @@ void Drawing :: paintEvent(QPaintEvent * event){
 void Drawing :: mousePressEvent(QMouseEvent * event){
         if((cur != NONE)&&!mov){
 	     mov = true;
-	     objs[cur] -> setPressed(true, event->pos()); //create if for currently pressed, use canvas
+	     objs[cur] -> setPressed(true, event->pos());
+	    // emit clshape(cur);
 	     update();
 	}
 	else if((cur != NONE) && mov){
@@ -73,6 +74,7 @@ void Drawing :: mousePressEvent(QMouseEvent * event){
 void Drawing :: mouseMoveEvent(QMouseEvent * event){
 	if(cur != NONE&& cur != CANVAS){
 	     objs[cur]->onMove(event->pos(),mov); //create case for line and circle
+	     msg(event->pos());
 	     update();
 	}
 }
@@ -81,6 +83,7 @@ void Drawing :: sLine(){
 	if(!mov&&cur == NONE){
 	    cur = (cur == LINE) ? NONE : LINE;
 	    emit tl();
+	    emit clshape(cur);
 	    update();
 	}
 
@@ -90,6 +93,7 @@ void Drawing :: sCirc(){
 	if(!mov&&cur == NONE){
 	     cur = (cur == CIRCLE) ? NONE : CIRCLE;
 	     emit tc(); 
+	     emit clshape(cur);
 	     update();
 	}
 }
@@ -98,8 +102,30 @@ void Drawing :: abort(){
 	if(cur != NONE){
 	    obs = false;
 	    objs[cur] -> abort();
+	    emit clear();
 	    cur = NONE;
 	    mov = false;
  	    update();
 	}
+}
+
+void Drawing :: msg(QPoint p){
+	QString r = "";
+	QString ts = "";
+	QPoint tc,t;
+	for(int i = 0; i < objs.size(); ++i){
+	    ts = objs[i] -> getSnap(p);
+	    if(!ts.isEmpty()){
+	        r = ts;
+	    }
+	}
+	if(r.isEmpty()){
+	    tc = objs[CANVAS] -> getCenter();
+            r = QString("(%1, %2)").arg(p.x()-tc.x()).arg((-1*p.y())+tc.y());
+	    emit disp(r,mov);
+	}
+	else{
+	    emit disp(r,mov);
+	}	
+
 }
