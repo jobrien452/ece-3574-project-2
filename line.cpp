@@ -52,12 +52,14 @@ QString Line :: getSnap(QPoint p){
 
 QPixmap Line :: render(QPainter * paint, QPixmap b){
     if(rendered){
+//	qDebug() << "lrender";
 	QPainter PixmapPainter(&b);
 	PixmapPainter.drawLine(lines[counter-1]);
 	paint->drawPixmap(0, 0,b);
 	rendered = false;
     }
     else{
+//	qDebug() << "ldraw";
  	paint -> drawPixmap(0,0, b);
 	paint -> drawLine(lines[counter]);
     }
@@ -76,6 +78,8 @@ void Line :: abort(){
  	lines.clear();
     }
     blueSnap = -1;
+    //delete gridSnap;
     rendered = false;
     clicked = false;
 }
+

@@ -70,7 +70,7 @@ void Drawing :: mousePressEvent(QMouseEvent * event){
 }
 
 void Drawing :: mouseMoveEvent(QMouseEvent * event){
-	if(cur != NONE){
+	if(cur != NONE&& cur != CANVAS){
 	     objs[cur]->onMove(event->pos(),mov); //create case for line and circle
 	     update();
 	}
@@ -78,7 +78,7 @@ void Drawing :: mouseMoveEvent(QMouseEvent * event){
 
 void Drawing :: sLine(){
 	if(!mov&&cur == NONE){
-	cur = cur == LINE ? NONE : LINE;
+	cur = (cur == LINE) ? NONE : LINE;
 	update();
 	}
 
@@ -93,10 +93,10 @@ void Drawing :: sCirc(){
 
 void Drawing :: abort(){
 	if(cur != NONE){
-	obs = false;
-	objs[cur] -> abort();
-	cur = NONE;
-	mov = false;
-	update();
+	    obs = false;
+	    objs[cur] -> abort();
+	    cur = NONE;
+	    mov = false;
+ 	    update();
 	}
 }

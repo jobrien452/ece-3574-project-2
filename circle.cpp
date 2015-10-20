@@ -66,6 +66,7 @@ void Circle :: abort(){ //method is similar in all implementations, may consider
     else{
 	circles.clear();
     }
+    //delete gridSnap;
     blueSnap = -1;
     rendered = false;
     clicked = false;
@@ -73,12 +74,14 @@ void Circle :: abort(){ //method is similar in all implementations, may consider
 
 QPixmap Circle :: render(QPainter * p, QPixmap b){
     if(rendered){
+//	qDebug() << "Crender";
 	QPainter PixmapPainter(&b);
 	PixmapPainter.drawEllipse(circles[counter-1].center, circles[counter-1].r, circles[counter-1].r);
 	p->drawPixmap(0,0,b);
 	rendered = false;
     }
     else{
+//	qDebug() << "CDraw";
 	p -> drawPixmap(0,0,b);
 	p -> drawEllipse(circles[counter].center, circles[counter].r, circles[counter].r);
     }

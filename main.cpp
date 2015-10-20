@@ -1,11 +1,11 @@
-#include "drawing.h"
+#include "window.h"
 #include <QApplication>
 
 int main(int argc, char **argv){
     
      QApplication app (argc, argv);
      
-     Drawing d;
-     d.show();
+     Window w; 
+     w.show();
      return app.exec();
 }
