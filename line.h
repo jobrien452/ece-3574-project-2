@@ -14,7 +14,6 @@ class Line : public Qtdraw {
 	void abort();
     private:
         QList<QLine> lines;
-        int counter;
     protected:
 	QPixmap render(QPainter *, QPixmap);
 	void onMoveRen(QPoint );

@@ -22,7 +22,7 @@ void Qtdraw :: onMove(QPoint p, bool x){
 
 int Qtdraw :: onSnap(QPoint p){
     for(int i = 0; i< snaps.size(); ++i){
-	if(((p.x()-7) < snaps[i].x() && snaps[i].x() < (p.x()+7)) && ((p.y()-7) < snaps[i].y()&& snaps[i].y() < (p.y()+7))){
+	if(((p.x()-4) < snaps[i].x() && snaps[i].x() < (p.x()+4)) && ((p.y()-4) < snaps[i].y()&& snaps[i].y() < (p.y()+4))){
 //		qDebug() << p;
 		return i;
         } 

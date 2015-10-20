@@ -5,7 +5,6 @@
 
 Circle :: Circle()
 	:Qtdraw(){
-	counter = 0;
 	rendered = false;
 }
 
@@ -27,8 +26,8 @@ void Circle :: setPressed(bool x, QPoint p){
 	rendered = false;
     }
     else{
-	int b = onSnap(circles[counter].center);
-	circDat x = circles[counter];
+	int b = onSnap(circles.last().center);
+	circDat x = circles.last();
 	if(b == -1){
 		snaps.append(x.center);
 	}
@@ -47,10 +46,9 @@ void Circle :: setPressed(bool x, QPoint p){
 	         snaps.append(x.sides[i]);
 	    }
 	}
-	circles[counter] = x;
+	circles.last() = x;
 	blueSnap = -1;
 	rendered = true;
-	counter ++;
 	clicked = false;
     }		  
 }
@@ -60,7 +58,7 @@ QString Circle :: getSnap(QPoint p){
 }
 
 void Circle :: abort(){ //method is similar in all implementations, may consider
-    if(counter > 0){  //templates to slim code if time allows
+    if(circles.size() > 1){  //templates to slim code if time allows
 	circles.pop_back();
     }
     else{
@@ -76,23 +74,23 @@ QPixmap Circle :: render(QPainter * p, QPixmap b){
     if(rendered){
 //	qDebug() << "Crender";
 	QPainter PixmapPainter(&b);
-	PixmapPainter.drawEllipse(circles[counter-1].center, circles[counter-1].r, circles[counter-1].r);
+	PixmapPainter.drawEllipse(circles.last().center, circles.last().r, circles.last().r);
 	p->drawPixmap(0,0,b);
 	rendered = false;
     }
     else{
 //	qDebug() << "CDraw";
 	p -> drawPixmap(0,0,b);
-	p -> drawEllipse(circles[counter].center, circles[counter].r, circles[counter].r);
+	p -> drawEllipse(circles.last().center, circles.last().r, circles.last().r);
     }
     return b;
 }
 
 void Circle :: onMoveRen(QPoint p){
-    int x = p.x() - circles[counter].center.x();
-    int y = p.y() - circles[counter].center.y();
+    int x = p.x() - circles.last().center.x();
+    int y = p.y() - circles.last().center.y();
     int d =(int) sqrt(pow((double)x,2)+pow((double)y,2));
-    circles[counter].r = d;
+    circles.last().r = d;
     blueSnap = onSnap(p);
 }
 

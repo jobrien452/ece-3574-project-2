@@ -25,7 +25,6 @@ class Circle : public Qtdraw {
 	QString getSnap(QPoint);
 	void abort();
     private:
-	int counter;
 	QList<circDat> circles;
     protected:
 	QPixmap render(QPainter *, QPixmap);

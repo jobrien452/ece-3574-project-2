@@ -1,40 +1,40 @@
 #include "line.h"
 #include <QDebug>
 Line :: Line() 
-    :Qtdraw(){
-    counter = 0; 
-}
+    :Qtdraw(){}
 
 void Line :: setPressed(bool x, QPoint p){
     if(x){
 	int b = onSnap(p);
 	if(b != -1){
-	    // qDebug() << b;
+	     qDebug() << b;
 	     lines.append(QLine(snaps[b],snaps[b]));
 	     gridSnap = snaps[b];
 	}
         else{
+	     qDebug() <<" :(";
 	     lines.append(QLine(p,p));
 	     gridSnap = p;
+	     qDebug() << ":D";
         }
 	clicked = true;
     }
     else{
-        int b = onSnap(lines[counter].p1());
+        int b = onSnap(lines.last().p1());
 	if(b == -1){
-	     snaps.append(lines[counter].p1());
+	     snaps.append(lines.last().p1());
 	}
 
-	b = onSnap(lines[counter].p2());
+	b = onSnap(lines.last().p2());
 
 	if(b != -1){
-	    lines[counter].setP2(snaps[b]);
+	    lines.last().setP2(snaps[b]);
 	}else{
-	    snaps.append(lines[counter].p2());
+	    snaps.append(lines.last().p2());
 	}
 	blueSnap = -1;//possibly unecessary, find out during testing
 	rendered = true;
-	counter++;
+	//counter++;
 	clicked = false;
     }
 }
@@ -54,27 +54,30 @@ QPixmap Line :: render(QPainter * paint, QPixmap b){
     if(rendered){
 //	qDebug() << "lrender";
 	QPainter PixmapPainter(&b);
-	PixmapPainter.drawLine(lines[counter-1]);
+	PixmapPainter.drawLine(lines.last());
 	paint->drawPixmap(0, 0,b);
 	rendered = false;
     }
     else{
-//	qDebug() << "ldraw";
+	qDebug() << lines;
  	paint -> drawPixmap(0,0, b);
-	paint -> drawLine(lines[counter]);
+	paint -> drawLine(lines.last());
+	//qDebug() << "ldend";
     }
     return b;
 }
 
 void Line :: onMoveRen(QPoint p){
-    lines[counter].setP2(p);
+    lines.last().setP2(p);
     blueSnap = onSnap(p);
 }
 
 void Line :: abort(){
-    if(counter > 0){
+    if(lines.size() > 1){
+	//qDebug() << lines;
         lines.pop_back();
     }else{
+	//qDebug() << "found";
  	lines.clear();
     }
     blueSnap = -1;
