@@ -4,12 +4,9 @@ Menu :: Menu ( QWidget * parent )
       : QWidget( parent ) {
     
     head = new QLabel(this);
-/*    line = new QLabel(this);
-    circle = new QLabel(this);
-    abort = new QLabel(this);*/
-
-   // line -> setTextFormat(Qt::RichText);
     head -> setTextFormat(Qt::RichText);
+    l = true;
+    c = true;
    /* circle -> setTextFormat(Qt::RichText);
     abort -> setTextFormat(Qt::RichText);*/
     draw = "<b><u>DRAW</u></b><br>";
@@ -36,28 +33,30 @@ Menu :: Menu ( QWidget * parent )
 }
 
 void Menu :: trigLine(){ //create somesort of signal scheme to unbold labels
-    l = l ? false : true;
+    //l = l ? false : true;
+    //static bool l = true;
     if(l){
-	head->setText(draw+"<b>Line&nbsp;&nbsp;&nbsp;x</b>"+circle+abort);
+	head->setText(draw+"<b>Line&nbsp;&nbsp;&nbsp;x</b><br>"+circle+abort);	
+	l = false;
     }else{
-	head -> setText(draw+line+circle+abort);
+        trigAbort();
+	l = true;
     }
     update();
 }
 
 void Menu :: trigCircle(){
-    c = c ? false : true;
+    //static bool c = true;
     if(c){
 	head -> setText(draw+line+"<b>Circle&nbsp;c<br><br></b>"+abort);
+	c = false;
     }else{
-	head -> setText(draw+line+circle+abort);
+	trigAbort();
+	c = true;
     }
     update();
 }
 
 void Menu :: trigAbort(){
-    c = true;
-    l = true;
-    trigLine();
-    trigCircle();
+    head -> setText(draw+line+circle+abort);
 }

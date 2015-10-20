@@ -40,6 +40,10 @@ class Drawing : public QWidget {
 	void sLine();//for when window handle short cuts
 	void sCirc();
         void abort();
+    signals:
+	void drawn();
+	void tl();
+	void tc();
 };
 
 #endif

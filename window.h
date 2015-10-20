@@ -20,6 +20,7 @@ class Window : public QWidget {
 	QHBoxLayout * hori;
 	Drawing * d;
 	Menu * m;
+	QShortcut *lshort, *cshort, *ashort;
     signals:
 	//?
     public slots:

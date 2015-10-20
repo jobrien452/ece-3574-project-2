@@ -22,9 +22,9 @@ Drawing :: Drawing ( QWidget * parent )
         objs.append(new Canvas());
 	update();
 	//will move to menu widget later
-	connect(new QShortcut(QKeySequence(tr("x", "Line")), this),SIGNAL(activated()),this,SLOT(sLine()));
+	/*connect(new QShortcut(QKeySequence(tr("x", "Line")), this),SIGNAL(activated()),this,SLOT(sLine()));
 	connect(new QShortcut(QKeySequence(tr("c", "Circle")), this),SIGNAL(activated()),this, SLOT(sCirc()));
-	connect(new QShortcut(QKeySequence(tr("Esc", "Abort")), this),SIGNAL(activated()),this, SLOT(abort()));
+	connect(new QShortcut(QKeySequence(tr("Esc", "Abort")), this),SIGNAL(activated()),this, SLOT(abort()));*/
 }
 
 void Drawing :: paintEvent(QPaintEvent * event){
@@ -39,6 +39,7 @@ void Drawing :: paintEvent(QPaintEvent * event){
 	    obs = false;
 	    wasPressed = obs;
 	    cur = NONE;
+	    emit drawn();
 	}
 	else if(!mov&&(cur != NONE)){
 	    paint.drawPixmap(0,0,board);
@@ -78,16 +79,18 @@ void Drawing :: mouseMoveEvent(QMouseEvent * event){
 
 void Drawing :: sLine(){
 	if(!mov&&cur == NONE){
-	cur = (cur == LINE) ? NONE : LINE;
-	update();
+	    cur = (cur == LINE) ? NONE : LINE;
+	    emit tl();
+	    update();
 	}
 
 }
 
 void Drawing :: sCirc(){
 	if(!mov&&cur == NONE){
-	cur = (cur == CIRCLE) ? NONE : CIRCLE;
-	update();
+	     cur = (cur == CIRCLE) ? NONE : CIRCLE;
+	     emit tc(); 
+	     update();
 	}
 }
 
