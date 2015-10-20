@@ -10,10 +10,6 @@
 class Menu : public QWidget {
 
     Q_OBJECT
-    /*in window connect signals to drawing for correct triggering
-     *in top display remeber to make a signal for mousemove  and connect in window
-     *so data is only displayed for the drawing area 
-     */
     public:
 	explicit Menu(QWidget * parent = 0);
     private:
