@@ -26,6 +26,49 @@ class LineTest: public QOjbect
 	bool x;
 	QPoint p;
 	QPixmap b;
-	QPainter * p;
-	Drawing d;
+	QPainter paint;
 };
+
+void LineTest::initTestCase()
+{
+    l = new Line();
+    x = false;
+    p = QPoint(100,100);
+    b = QPixmap(200,200);
+    paint = paint(&b);
+
+}
+
+void LineTest::testSetPressed()
+{
+    
+}
+
+void LineTest::testGetSnap()
+{
+}
+
+void LineTest::testAbort()
+{
+}
+
+void LineTest::testGetCenter()
+{
+
+
+}
+
+void LineTest::testRender()
+{
+}
+
+void LineTest::testOnMoveRen()
+{
+}
+
+void LineTest::cleanupTestCase()
+{
+}
+
+QTEST_MAIN(LineTest)
+#include "linetest.moc"

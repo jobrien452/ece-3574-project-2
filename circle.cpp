@@ -66,7 +66,7 @@ QString Circle :: getSnap(QPoint p){
     int side = -1;
     for(int i = 0; i < circles.size(); ++i){
 	for(int z = 0; z < 4; z++){
-	    if (((p.x()-4) < circles[i].sides[z].x() && circles[i].sides[z].x() < (p.x()+4)) && ((p.y()-4) < circles[i].sides[z].y()&& circles[i].sides[z].y() < (p.y()+4)))
+	    if (inSnap(p,circles[i].sides[z]))
 		side = z;
 	}
     }
@@ -81,14 +81,14 @@ QString Circle :: getSnap(QPoint p){
 
     if(sc.isEmpty()){
 	for(int i = 0; i < circles.size(); ++i){
-	    if (((p.x()-4) < circles[i].center.x() && circles[i].center.x() < (p.x()+4)) && ((p.y()-4) < circles[i].center.y()&& circles[i].center.y() < (p.y()+4)))
+	    if (inSnap(p,circles[i].center))
 		sc = "Circle's Center";
 	}
     }
 
     if(!sc.isEmpty()){
 	for(int i = 0; i < csnaps.size(); ++i){
-	    if(((p.x()-4) < csnaps[i].x() && csnaps[i].x() < (p.x()+4)) && ((p.y()-4) < csnaps[i].y()&& csnaps[i].y() < (p.y()+4))){
+	    if(inSnap(p,csnaps[i])){
 		return sc;
 	    }	
         }

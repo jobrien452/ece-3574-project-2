@@ -44,16 +44,16 @@ void Line :: setPressed(bool x, QPoint p){
 QString Line :: getSnap(QPoint p){
     QString side = "";
     for(int i = 0; i < lines.size(); ++i){
-	if(((p.x()-4) < lines[i].p1().x() && lines[i].p1().x() < (p.x()+4)) && ((p.y()-4) < lines[i].p1().y()&& lines[i].p1().y() < (p.y()+4))){
+	if(inSnap(p,lines[i].p1())){
 	    side =  "Line's Start";
 	}
-	else if(((p.x()-4) < lines[i].p2().x() && lines[i].p2().x() < (p.x()+4)) && ((p.y()-4) < lines[i].p2().y()&& lines[i].p2().y() < (p.y()+4))){
+	else if(inSnap(p,lines[i].p2())){
             side = "Line's End";
 	}
     }
     if(!side.isEmpty()){
 	for(int i = 0; i < lsnaps.size(); ++i){
-	    if(((p.x()-4) < lsnaps[i].x() && lsnaps[i].x() < (p.x()+4)) && ((p.y()-4) < lsnaps[i].y()&& lsnaps[i].y() < (p.y()+4))){
+	    if(inSnap(p,lsnaps[i])){
 		return side;   
 	    }
 	}

@@ -29,6 +29,7 @@ class Qtdraw : public QObject {
     protected:
         virtual QPixmap render(QPainter *, QPixmap) = 0;
 	virtual void onMoveRen(QPoint) = 0;
+	bool inSnap(QPoint,QPoint);
         static QList <QPoint> snaps;
 	bool rendered, clicked;
 	int blueSnap;

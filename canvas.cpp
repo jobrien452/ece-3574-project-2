@@ -43,7 +43,7 @@ void Canvas :: setPressed(bool x, QPoint p){} //not a function of canvas
 
 QString Canvas :: getSnap(QPoint p){
     for(int i = 0; i<labels.size(); ++i){
-        if(((p.x()-4) < cpoints[i].x() && cpoints[i].x() < (p.x()+4)) && ((p.y()-4) < cpoints[i].y()&& cpoints[i].y() < (p.y()+4))&&labels.contains(i))
+        if(inSnap(p,cpoints[i])&&labels.contains(i))
 	    return "Canvas's "+labels.value(i);
     }
     return "";

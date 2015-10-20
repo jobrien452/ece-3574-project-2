@@ -22,12 +22,19 @@ void Qtdraw :: onMove(QPoint p, bool x){
 
 int Qtdraw :: onSnap(QPoint p){
     for(int i = 0; i< snaps.size(); ++i){
-	if(((p.x()-4) < snaps[i].x() && snaps[i].x() < (p.x()+4)) && ((p.y()-4) < snaps[i].y()&& snaps[i].y() < (p.y()+4))){
+	if(inSnap(p,snaps[i])){
 //		qDebug() << p;
 		return i;
         } 
     }
     return -1; 
+}
+bool Qtdraw :: inSnap(QPoint p1, QPoint p2){
+    if((p1.x()-4) < p2.x() && p2.x() < (p1.x()+4)){
+        if((p1.y()-4) < p2.y()&& p2.y() < (p1.y()+4))
+	    return true;
+    }
+    return false;
 }
 
 QPixmap Qtdraw :: trigRen(QPainter * p, QPixmap b){
