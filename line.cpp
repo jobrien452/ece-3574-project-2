@@ -53,7 +53,7 @@ QString Line :: getSnap(QPoint p){
     }
     if(!side.isEmpty()){
 	for(int i = 0; i < lsnaps.size(); ++i){
-	    if(lsnaps[i] == p){
+	    if(((p.x()-4) < lsnaps[i].x() && lsnaps[i].x() < (p.x()+4)) && ((p.y()-4) < lsnaps[i].y()&& lsnaps[i].y() < (p.y()+4))){
 		return side;   
 	    }
 	}

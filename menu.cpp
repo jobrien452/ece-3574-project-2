@@ -58,5 +58,7 @@ void Menu :: trigCircle(){
 }
 
 void Menu :: trigAbort(){
+    l = true;
+    c = true;
     head -> setText(draw+line+circle+abort);
 }
