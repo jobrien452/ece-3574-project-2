@@ -1,6 +1,6 @@
 #include "drawing.h"
 
-#include <QAction>
+#include <QDebug>
 #include <QPoint>
 #include <QShortcut>
 
@@ -20,6 +20,7 @@ Drawing :: Drawing ( QWidget * parent )
 	objs.append(new Line());
 	objs.append(new Circle());
         objs.append(new Canvas());
+        //qDebug() << objs[2]->getCenter();
 	update();
 	//will move to menu widget later
 	/*connect(new QShortcut(QKeySequence(tr("x", "Line")), this),SIGNAL(activated()),this,SLOT(sLine()));
