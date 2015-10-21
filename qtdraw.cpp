@@ -66,3 +66,5 @@ void Qtdraw :: bSnap(QPainter * p, QPoint bs){
     p->drawEllipse(bs, 4, 4);
     p->setBrush(Qt::yellow); 
 }
+
+int Qtdraw :: getBS(){return blueSnap;}

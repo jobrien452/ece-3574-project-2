@@ -20,6 +20,7 @@ class Message : public QWidget {
 	void clear();
 	void upMsg(QString, bool);
 	void setCur(int);
+	QString getText();
 
 };
 

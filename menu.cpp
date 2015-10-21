@@ -62,3 +62,5 @@ void Menu :: trigAbort(){
     c = true;
     head -> setText(draw+line+circle+abort);
 }
+
+QString Menu :: getText(){ return head->text(); }

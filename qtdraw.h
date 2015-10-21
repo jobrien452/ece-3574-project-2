@@ -26,6 +26,7 @@ class Qtdraw : public QObject {
 	virtual void abort() = 0;
 	void bSnap(QPainter *, QPoint);
         QPixmap trigRen(QPainter *, QPixmap);
+        int getBS();
     protected:
         virtual QPixmap render(QPainter *, QPixmap) = 0;
 	virtual void onMoveRen(QPoint) = 0;

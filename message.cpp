@@ -45,3 +45,5 @@ void Message :: setCur(int x){
 	}
 	
 }
+
+QString Message :: getText(){ return mbox -> text(); }

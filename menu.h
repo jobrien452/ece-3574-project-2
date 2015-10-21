@@ -12,6 +12,7 @@ class Menu : public QWidget {
     Q_OBJECT
     public:
 	explicit Menu(QWidget * parent = 0);
+	QString getText();
     private:
 	QVBoxLayout * vmenu;
 	QLabel * head;
