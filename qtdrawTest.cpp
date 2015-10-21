@@ -84,7 +84,7 @@ void QtdrawTest :: testTrigRen()
     cpix.begin(&b);
     q->trigRen(&cpix, QPixmap(100,100));
     cpix.end();
-    QVERIFY(c.cacheKey() == b.cacheKey());   
+    QVERIFY(c.toImage() == b.toImage());   
 }
 
 void QtdrawTest :: testTrigSnap()
@@ -97,38 +97,35 @@ void QtdrawTest :: testTrigSnap()
     q->onMove(QPoint(0,0), true);
     QPainter pix;
     QPainter cpix;
-    QPixmap b = QPixmap(100,100);
-    QPixmap c = QPixmap(100,100);
-    pix.begin(&b);
+    QPixmap * b = new QPixmap(100,100);
+    QPixmap * c = b;
+    pix.begin(b);
     q->trigSnap(&pix);
     pix.end();
-    cpix.begin(&c);
+    cpix.begin(c);
     cpix.setBrush(Qt::yellow);
     cpix.drawEllipse(QPoint(0,0), 4,4);
     cpix.drawEllipse(QPoint(10,10), 4,4);
     q->bSnap(&cpix, QPoint(0,0));
     q->bSnap(&cpix, QPoint(20,20));
     cpix.end();
-    QVERIFY(c.cacheKey() == b.cacheKey()); 
+    QVERIFY(c->toImage() == b->toImage()); 
 
 }
 
 void QtdrawTest :: testBSnap()
 {
     QPainter pix;
-    QPixmap b = QPixmap(100,100);
-    pix.begin(&b);
+    QPixmap * b = new QPixmap(100,100);
+    QPixmap * c = b;
+    pix.begin(b);
     q->bSnap(&pix, QPoint(10,10));
     pix.end();
-    QPainter cpix;
-    QPixmap c = QPixmap(100,100);
-    cpix.begin(&c);
-    cpix.setBrush(Qt::darkGray);
-    cpix.drawEllipse(QPoint(10,10), 6, 6);
-    cpix.setBrush(Qt::blue);
-    cpix.drawEllipse(QPoint(10,10), 4, 4);
-    cpix.end();
-    QVERIFY(c.cacheKey() == b.cacheKey());
+    pix.begin(c);
+    q->bSnap(&pix, QPoint(10,10));
+    pix.end();
+
+    QVERIFY(c->toImage() == b->toImage());
 }
 
 void QtdrawTest :: cleanupTestCase()

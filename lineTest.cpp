@@ -82,24 +82,13 @@ void LineTest::testRender()
 
 void LineTest::testOnMoveRen()
 {
-   QTest::qWait(250);
-   b1 = QPixmap(200,200);
-   b2 = QPixmap(200,200);
-   QPainter p;
-   p.begin(&b2);
-   l->setPressed(true,QPoint(0,0));
-   l->onMove(QPoint(10,10), true);
-   l->setPressed(false, QPoint(0,0));
-   l->trigRen(&p, QPixmap(200,200));
-   p.end();
-   p.begin(&b1);
-   l->setPressed(true,QPoint(0,0));
-   l->onMove(QPoint(10,10), true);
-   l->setPressed(false,QPoint(0,0));
-   l->trigRen(&p, QPixmap(200,200));
-   p.end();
-  // QVERIFY(b1.toImage() == b2.toImage());
-   
+   QPainter paint(&b1);
+   l -> setPressed(true, p1);
+   l -> onMove(QPoint(50,50), true);
+   l -> trigRen(&paint, b1);
+   l -> setPressed(false,p1);
+   b2 = l -> trigRen(&paint, b1);
+   QVERIFY(b1.toImage() == b2.toImage()); 
 }
 
 void LineTest::cleanupTestCase()

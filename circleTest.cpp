@@ -80,22 +80,20 @@ void CircleTest::testRender()
    l -> trigRen(&paint, b1);
    l -> setPressed(false,p1);
    b2 = l -> trigRen(&paint, b1);
-   //convert to image and check bits?
-   QVERIFY(b1.cacheKey() == b2.cacheKey()); 
+   //convert to image and check bits
+   QVERIFY(b1.toImage() == b2.toImage()); 
 }
 
 void CircleTest::testOnMoveRen()
 {
-   b1 = QPixmap(200,200);
-   b2 = QPixmap(200,200);
-   QPainter b2painter(&b2);
    QPainter paint(&b1);
-   b2painter.drawEllipse(QPoint(0,0),10,10);
-   l->setPressed(true,QPoint(0,0));
-   l->onMove(QPoint(10,10), true);
-   l->trigRen(&paint, b1);
-   QVERIFY(b1.cacheKey() == b2.cacheKey());
-   
+   l -> setPressed(true, p1);
+   l -> onMove(QPoint(50,50), true);
+   l -> trigRen(&paint, b1);
+   l -> setPressed(false,p1);
+   b2 = l -> trigRen(&paint, b1);
+   //convert to image and check bits?
+   QVERIFY(b1.toImage() == b2.toImage()); 
 }
 
 void CircleTest::cleanupTestCase()

@@ -19,7 +19,8 @@ void Canvas :: overload(QPoint origin, QPoint bottomRight){
     int cx = border.center().x();
     cpoints << border.topLeft() << QPoint(cx,border.top())  << border.topRight();
     cpoints << QPoint(border.left(),cy) << border.center() << QPoint(border.right(),cy);
-    cpoints << border.bottomLeft() << QPoint(cx, border.bottom()) << border.bottomRight(); 
+    cpoints << border.bottomLeft() << QPoint(cx, border.bottom()) << border.bottomRight();
+    //qDebug() << cpoints; 
     createLabels(); 
 }
 
@@ -44,6 +45,7 @@ void Canvas :: setPressed(bool x, QPoint p){} //not a function of canvas
 QString Canvas :: getSnap(QPoint p){
     for(int i = 0; i<labels.size(); ++i){
         if(inSnap(p,cpoints[i])&&labels.contains(i))
+           // qDebug() << labels.value(i) << " " << inSnap(p,cpoints[i]);
 	    return "Canvas's "+labels.value(i);
     }
     return "";

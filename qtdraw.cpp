@@ -33,6 +33,8 @@ bool Qtdraw :: inSnap(QPoint p1, QPoint p2){
     if((p1.x()-4) < p2.x() && p2.x() < (p1.x()+4)){
         if((p1.y()-4) < p2.y()&& p2.y() < (p1.y()+4))
 	    return true;
+    }else if(p1 == p2){
+            return true;
     }
     return false;
 }
